@@ -1,0 +1,12 @@
+body {
+    padding: 30px;
+}
+
+.hoge {
+    border: 1px solid #555;
+    padding: 30px;
+}
+.hoge li {
+    text-decoration: none;
+    padding: 20px 0;
+}
