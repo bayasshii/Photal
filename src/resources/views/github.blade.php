@@ -13,12 +13,11 @@
                 <div>
                     <form action="/user" method="post">
                         {{ csrf_field() }}
-
+                        
                         <div>お名前 : <input type="text" name="name" value="{{$user->name}}"></div>
-
+                        
                         <div>コメント : <input type="text" name="comment" value="{{$user->comment}}"></div>
-
-
+                        
                         <input type="submit" value="Confirm">
                     </form>
                 </div>
@@ -29,25 +28,21 @@
             <form action="/github" method="post">
                 <ul>
                     <li>アルバム名 : <input type="text" name="album_name"></li>
-
-                    <li>日にち : <input type="datetime-local" name="album_startDate"> ~ <input type="datetime-local" name="album_endDate"></li>
-
-                    <li>写真 : <input type="text" name="album_photo"></li>
                     
+                    <li>日にち : <input type="datetime-local" name="album_startDate"> ~ <input type="datetime-local" name="album_endDate"></li>
+                    　
+                    <li>写真 : 
+                    <input type="file" class="form-control" name="file" multiple>
+                    </li>
+
                     <li>メンバー : 
-                    <input type="text" name="album_member">
-                        <!--
                         <select name="album_members[]" multiple>
-                            <option value="1">$user->name</option>
-                            <option value="2">ヤッホーーー</option>
-                            <option value="3">いえーい</option>
-                            @isset($album_member)
-                                @foreach($album_member as $am)
-                                    <option value="{{ $am->album_member }}">aaa</option>
+                            @isset($users)
+                                @foreach($users as $u)
+                                    <option value="{{ $u->name }}">{{ $u->name }}</option>
                                 @endforeach
                             @endisset
                         </select>
-                        -->
                     </li>
 
                     <li><input type="submit" value="送信"></li>
@@ -57,34 +52,30 @@
         </div>
 
         <!-- 投稿表示エリア -->
-        @isset($album)
-            @foreach ($album as $a)
-                 <!-- $album に紐つく$album_memberと$album_photoを先に定義したい。でループ回したい。 -->
-                
-                 <!--
-                     
-                 -->
+        @isset($albums)
+            @foreach ($albums as $a)
+                <div class="album__container">
+                    @php
+                        $albumMembers = $album_members->where('album_id', $a->album_id);
+                        $albumPhotos = $album_photos->where('album_id', $a->album_id);
+                    @endphp
+                    <h2>{{$a->album_name}}</h2>
+                    <div>{{$a->album_startDate}} ~ {{$a->album_endDate}}</div>
+                    
+                    @isset($albumMembers)
+                        <div class="flex">
+                            @foreach ($albumMembers as $am)
+                            <a>{{$am->album_member}}</a>
+                            @endforeach
+                        </div>
+                    @endisset
 
-                <!-- $album に紐つく$album_memberと$album_photoを先に定義したい。でループ回したい。 -->
-                 
-                <h2>{{$a->album_name}}</h2>
-                <div>{{$a->album_startDate}}</div>
-                <div>{{$a->album_endDate}}</div>
-
-                <!--
-                @isset($albumMember)
-                    @foreach ($albumMember as $am)
-                        <div>{{$am->member}}</div>
-                    @endforeach
-                @endisset
-
-                @isset($albumPhoto)
-                    @foreach ($albumPhoto as $ap)
-                        <div>{{$ap->photo}}</div>
-                    @endforeach
-                @endisset
-                -->
-
+                    @isset($albumPhotos)
+                        @foreach ($albumPhotos as $ap)
+                            <div>{{$ap->album_photo}}</div>
+                        @endforeach
+                    @endisset
+                </div>
             @endforeach
         @endisset
     </body>

@@ -6,7 +6,17 @@ body {
     border: 1px solid #555;
     padding: 30px;
 }
+
 .hoge li {
     text-decoration: none;
     padding: 20px 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.album__container {
+    padding: 20px;
+    border: 1px red solid;
 }
