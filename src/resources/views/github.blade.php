@@ -32,7 +32,7 @@
                     <li>日にち : <input type="datetime-local" name="album_startDate"> ~ <input type="datetime-local" name="album_endDate"></li>
                     　
                     <li>写真 : 
-                    <input type="file" class="form-control" name="file" multiple>
+                      <input type="file" class="form-control" name="album_files" multiple>
                     </li>
 
                     <li>メンバー : 
