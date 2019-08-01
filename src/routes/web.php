@@ -25,6 +25,7 @@ Route::post('user', 'User\UserController@updateUser');
 // 投稿機能
 Route::get('github', 'Github\GithubController@index');
 Route::post('github', 'Github\GithubController@createAlbum');
-Route::post('github', 'Github\GithubController@upload');
+// Route::post('github', 'Github\GithubController@upload');
+
 // 画像アップロード
-Route::post('github', 'Github\GithubController@upload');
+// Route::post('github', 's3Controller@upload');
