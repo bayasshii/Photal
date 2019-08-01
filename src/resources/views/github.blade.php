@@ -25,14 +25,14 @@
         @endisset
 
         <div class="hoge">
-            <form action="/github" method="post">
+            <form action="/github" method="post" enctype="multipart/form-data">
                 <ul>
                     <li>アルバム名 : <input type="text" name="album_name"></li>
                     
                     <li>日にち : <input type="datetime-local" name="album_startDate"> ~ <input type="datetime-local" name="album_endDate"></li>
                     　
                     <li>写真 : 
-                      <input type="file" class="form-control" name="album_files" multiple>
+                      <input type="file" class="form-control" name="album_files[]" multiple>
                     </li>
 
                     <li>メンバー : 
@@ -72,7 +72,7 @@
 
                     @isset($albumPhotos)
                         @foreach ($albumPhotos as $ap)
-                            <div>{{$ap->album_photo}}</div>
+                            <div><img src="https://bayashi.s3-ap-northeast-1.amazonaws.com/{{$ap->album_photo}}"></div>
                         @endforeach
                     @endisset
                 </div>

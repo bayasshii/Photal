@@ -16,17 +16,14 @@ use App\Model\AlbumPhoto;
 
 class GithubController extends Controller {
     // s3に画像アップロード
-    private function s3upload(int $id, str $image) {
+    private function s3upload(int $id, string $image) {
         //拡張子で画像でないファイルをはじく
         // $ext = substr($filename, strrpos($_FILES['img_path']['name'], '.') + 1);
         // if(strtolower($ext) !== 'png' && strtolower($ext) !== 'jpg' && strtolower($ext) !== 'gif'){
         //     echo '画像以外のファイルが指定されています。画像ファイル(png/jpg/jpeg/gif)を指定して下さい';
         //     exit();
         // }
-        //読み込みの際のキーとなるS3上のファイルパスを作る(作り方は色々あると思います)
-        // $tmpname = str_replace('/tmp/','',$_FILES['img_path']['tmp_name']);
-        $new_filename = $id;
-
+        
         //S3clientのインスタンス生成(各項目の説明は後述)
         $s3client = S3Client::factory([
             'credentials' => [
@@ -38,16 +35,14 @@ class GithubController extends Controller {
         ]);
         //バケット名を指定
         $bucket = getenv('S3_BUCKET_NAME')?: die('No "S3_BUCKET_NAME" config var in found in env!');
-        //アップロードするファイルを用意
-        // $image = fopen($_FILES['img_path']['tmp_name'],'rb');
 
         //画像のアップロード(各項目の説明は後述)
         $result = $s3client->putObject([
             'ACL' => 'public-read',
             'Bucket' => $bucket,
-            'Key' => $new_filename,
+            'Key' => $id,
             'Body' => $image,
-            'ContentType' => "image/png",
+            'ContentType' =>finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $image)
         ]);
     }
 
@@ -62,6 +57,7 @@ class GithubController extends Controller {
 
     // アルバムを投稿(POST)(アップロード)
     public function createAlbum(Request $request) {
+
         // albums
         $album_id = mt_rand();
         $album_name = $request->input('album_name');
@@ -75,14 +71,11 @@ class GithubController extends Controller {
             AlbumMember::insert(["album_id" => $album_id, "album_member" => $am]); 
         }
         
-        // album_photos
-        $album_files = $request->input('album_files');
-        
-        foreach ($album_files as $af) {
+        foreach ($_FILES['album_files']['tmp_name'] as $tmp_name) {
+            $album_photo = mt_rand();
             // s3に保存するだけの関数
-            $album_Photo_id = mt_rand();
-            $this->s3upload($album_Photo_id, $af);
-            AlbumPhoto::insert(["album_id" => $album_id, "album_photo" => $album_photo_id]); 
+            $this->s3upload($album_photo, file_get_contents($tmp_name));
+            AlbumPhoto::insert(["album_id" => $album_id, "album_photo" => $album_photo]); 
         }
         
         $users = User::all();
@@ -91,33 +84,6 @@ class GithubController extends Controller {
         $album_photos = AlbumPhoto::all();
         
         return view('github', ["users" => $users, "albums" => $albums, "album_members" => $album_members, "album_photos" => $album_photos]); 
-    }
-    
-    
-    private function localUpload(Request $request)
-    {
-        $this->validate($request, [
-            'file' => [
-                // 必須
-                'required',
-                // アップロードされたファイルであること
-                'file',
-                // 画像ファイルであること
-                'image',
-                // MIMEタイプを指定
-                'mimes:jpeg,png',
-            ]
-        ]);
-
-        if ($request->file('file')->isValid([])) {
-            $path = $request->file->store('public');
-            return view('home')->with('filename', basename($path));
-        } else {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors();
-        }
     }
 
     // アルバムを削除(DELETE)(削除)
