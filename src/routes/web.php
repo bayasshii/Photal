@@ -18,8 +18,10 @@ Route::get('/', function () {
 
 // ログイン機能
 Route::get('github', 'Github\GithubController@top');
-Route::post('github/issue', 'Github\GithubController@createAlbum');
 Route::get('login/github', 'Auth\LoginController@redirectToProvider');
 Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
-
 Route::post('user', 'User\UserController@updateUser');
+
+// 投稿機能
+
+Route::post('github', 'Github\GithubController@createAlbum');

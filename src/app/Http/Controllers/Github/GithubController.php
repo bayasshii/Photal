@@ -19,20 +19,14 @@ class GithubController extends Controller
         $album = Album::all(); // 全データの取り出し
         $album_member = AlbumPhoto::all(); // 全データの取り出し
         $album_photo = AlbumMember::all(); // 全データの取り出し
-        return view('github.index', ["album" => $album, "album_member" => $album_member, "album_photo" => $album_photo]); // bbs.indexにデータを渡す
+        return view('github', ["album" => $album, "album_member" => $album_member, "album_photo" => $album_photo]); 
     }
 
     // 投稿された内容を表示
     public function createAlbum(Request $request) {
 
-        // バリデーションチェック
-        //$request->validate([
-        //    'name' => 'required|max:10',
-        //    'comment' => 'required|min:5|max:140',
-        //]);
-
         // 投稿内容の受け取って変数に入れる
-        $name = $request->input('name');
+        $album_name = $request->input('album_name');
         $album_startDate = $request->input('album_startDate');
         $album_endDate = $request->input('album_endDate');
 
@@ -41,14 +35,14 @@ class GithubController extends Controller
 
         $album_photo = $request->input('album_photo');
 
-        Album::insert(["name" => $name, "album_startDate" => $album_startDate, "album_endDate" => $album_endDate]); 
-        AlbumMember::insert(["album_id" => $album_id, "album_mebner" => $album_member]); 
+        Album::insert(["album_name" => $album_name, "album_startDate" => $album_startDate, "album_endDate" => $album_endDate]); 
+        AlbumMember::insert(["album_id" => $album_id, "album_member" => $album_member]); 
         AlbumPhoto::insert(["album_id" => $album_id, "album_photo" => $album_photo]); 
 
         $album = Album::all(); // 全データの取り出し
         $album_member = AlbumPhoto::all(); // 全データの取り出し
         $album_photo = AlbumMember::all(); // 全データの取り出し
-        return view('github.index', ["album" => $album, "album_member" => $album_member, "album_photo" => $album_photo]); // bbs.indexにデータを渡す
+        return view('github', ["album" => $album, "album_member" => $album_member, "album_photo" => $album_photo]); // bbs.indexにデータを渡す
     }
 
     // 名前とかの新規登録画面の表示
