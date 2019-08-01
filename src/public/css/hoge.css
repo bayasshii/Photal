@@ -21,6 +21,18 @@ body {
     border: 1px red solid;
 }
 
-.album__container img {
-    width: 100px;
+.album__mambersContainer--item {
+    border: 1px solid #999;
+    border-radius: 3px;
+    margin: 0 10px;
 }
+
+.album__imgsContainer--item {
+    width: 50px;
+}
+
+.album__imgsContainer--item img {
+    width: 100%;
+}
+
+

@@ -24,12 +24,16 @@
             @endempty
         @endisset
 
+         <!-- アルバム新規登録 -->
         <div class="hoge">
             <form action="/github" method="post" enctype="multipart/form-data">
                 <ul>
                     <li>アルバム名 : <input type="text" name="album_name"></li>
                     
-                    <li>日にち : <input type="datetime-local" name="album_startDate"> ~ <input type="datetime-local" name="album_endDate"></li>
+                    <li>日にち : 
+                    <input type="date" name="album_startDate">
+                    ~
+                    <input type="date" name="album_endDate"></li>
                     　
                     <li>写真 : 
                       <input type="file" class="form-control" name="album_files[]" multiple>
@@ -51,7 +55,17 @@
             </form>
         </div>
 
-        <!-- 投稿表示エリア -->
+        <!-- エラーメッセージ -->
+        @if ($errors->any())
+            <h2>エラーメッセージ</h2>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
+        <!-- 投稿表示 -->
         @isset($albums)
             @foreach ($albums as $a)
                 <div class="album__container">
@@ -63,17 +77,23 @@
                     <div>{{$a->album_startDate}} ~ {{$a->album_endDate}}</div>
                     
                     @isset($albumMembers)
-                        <div class="flex">
+                        <div class="album__membersContainer flex">
                             @foreach ($albumMembers as $am)
-                            <a>{{$am->album_member}}</a>
+                            <div class="album__mambersContainer--item">
+                                <a>{{$am->album_member}}</a>
+                            </div>
                             @endforeach
                         </div>
                     @endisset
 
                     @isset($albumPhotos)
-                        @foreach ($albumPhotos as $ap)
-                            <div><img src="https://bayashi.s3-ap-northeast-1.amazonaws.com/{{$ap->album_photo}}"></div>
-                        @endforeach
+                        <div class="album__imgsContainer">
+                            @foreach ($albumPhotos as $ap)
+                                <div class="album__imgsContainer--item">
+                                    <img src="https://bayashi.s3-ap-northeast-1.amazonaws.com/{{$ap->album_photo}}">
+                                </div>
+                                    @endforeach
+                        </div>
                     @endisset
                 </div>
             @endforeach

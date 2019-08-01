@@ -57,12 +57,21 @@ class GithubController extends Controller {
 
     // アルバムを投稿(POST)(アップロード)
     public function createAlbum(Request $request) {
+        // バリデーションチェック
+        $request->validate([
+            'album_name' => 'required',
+            'album_members' => 'required',
+            'album_startDate' => 'required',
+            'album_endDate' => 'required',
+            'album_files' => 'required'
+        ]);
 
         // albums
         $album_id = mt_rand();
         $album_name = $request->input('album_name');
         $album_startDate = $request->input('album_startDate');
         $album_endDate = $request->input('album_endDate');
+        $album_files = $_FILES['album_files']['tmp_name'];
         Album::insert(["album_id"  => $album_id, "album_name" => $album_name, "album_startDate" => $album_startDate, "album_endDate" => $album_endDate]);     
         
         // album_members
@@ -71,10 +80,10 @@ class GithubController extends Controller {
             AlbumMember::insert(["album_id" => $album_id, "album_member" => $am]); 
         }
         
-        foreach ($_FILES['album_files']['tmp_name'] as $tmp_name) {
+        foreach ($album_files as $af) {
             $album_photo = mt_rand();
             // s3に保存するだけの関数
-            $this->s3upload($album_photo, file_get_contents($tmp_name));
+            $this->s3upload($album_photo, file_get_contents($af));
             AlbumPhoto::insert(["album_id" => $album_id, "album_photo" => $album_photo]); 
         }
         
