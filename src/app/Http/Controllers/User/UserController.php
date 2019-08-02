@@ -15,6 +15,6 @@ class UserController extends Controller
         $user = Socialite::driver('github')->userFromToken($token);
 
         DB::update('update public.user set name = ?, comment = ? where github_id = ?', [$request->input('name'), $request->input('comment'), $user->user['login']]);
-        return redirect('/github');
+        return redirect('/photal');
     }    
 }

@@ -18,6 +18,7 @@
                         
                         <div>コメント : <input type="text" name="comment" value="{{$user->comment}}"></div>
                         
+                        
                         <input type="submit" value="Confirm">
                     </form>
                 </div>
@@ -26,7 +27,7 @@
 
          <!-- アルバム新規登録 -->
         <div class="hoge">
-            <form action="/github" method="post" enctype="multipart/form-data">
+            <form action="/photal" method="post" enctype="multipart/form-data">
                 <ul>
                     <li>アルバム名 : <input type="text" name="album_name"></li>
                     
@@ -69,6 +70,7 @@
         @isset($albums)
             @foreach ($albums as $a)
                 <div class="album__container">
+                    <a href="/photal/put/{{$a->album_id}}">詳細へ</a>
                     @php
                         $albumMembers = $album_members->where('album_id', $a->album_id);
                         $albumPhotos = $album_photos->where('album_id', $a->album_id);
@@ -95,6 +97,18 @@
                                     @endforeach
                         </div>
                     @endisset
+                    <!--アルバム写真追加機能-->
+                    <form method="post" action="/photal/put/{{$a->album_id}}" enctype="multipart/form-data">
+                        {{ csrf_field()}}
+                        写真追加：
+                        <input type="file" class="form-control" name="album_files[]" multiple>
+                        <input type="submit" value="送信">
+                    </form>
+                    <!--アルバム削除機能-->
+                    <form method="post" action="/photal/delete/{{$a->album_id}}">
+                        {{ csrf_field()}}
+                        <button type="submit" class="btn">DELETE</button>
+                    </form>
                 </div>
             @endforeach
         @endisset

@@ -24,6 +24,7 @@ body {
 .album__mambersContainer--item {
     border: 1px solid #999;
     border-radius: 3px;
+    padding:0 10px;
     margin: 0 10px;
 }
 

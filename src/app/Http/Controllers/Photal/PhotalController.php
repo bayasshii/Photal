@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Github;
+namespace App\Http\Controllers\Photal;
 
 use Aws\S3\S3Client;
 
@@ -14,8 +14,11 @@ use App\Model\Album;
 use App\Model\AlbumMember;
 use App\Model\AlbumPhoto;
 
-class GithubController extends Controller {
-    // s3に画像アップロード
+use Illuminate\Support\Facades\Log;
+
+class PhotalController extends Controller {
+
+    // s3に画像アップロードするローカル関数
     private function s3upload(int $id, string $image) {
         //拡張子で画像でないファイルをはじく
         // $ext = substr($filename, strrpos($_FILES['img_path']['name'], '.') + 1);
@@ -46,15 +49,6 @@ class GithubController extends Controller {
         ]);
     }
 
-    // indexを表示(GET)(閲覧)
-    public function index() {
-        $users = User::all();
-        $albums = Album::all();
-        $album_members = AlbumMember::all();
-        $album_photos = AlbumPhoto::all();
-        return view('github', ["users" => $users, "albums" => $albums, "album_members" => $album_members, "album_photos" => $album_photos]); 
-    }
-
     // アルバムを投稿(POST)(アップロード)
     public function createAlbum(Request $request) {
         // バリデーションチェック
@@ -71,7 +65,6 @@ class GithubController extends Controller {
         $album_name = $request->input('album_name');
         $album_startDate = $request->input('album_startDate');
         $album_endDate = $request->input('album_endDate');
-        $album_files = $_FILES['album_files']['tmp_name'];
         Album::insert(["album_id"  => $album_id, "album_name" => $album_name, "album_startDate" => $album_startDate, "album_endDate" => $album_endDate]);     
         
         // album_members
@@ -79,7 +72,9 @@ class GithubController extends Controller {
         foreach ($album_members as $am) {
             AlbumMember::insert(["album_id" => $album_id, "album_member" => $am]); 
         }
-        
+
+        // album_photos
+        $album_files = $_FILES['album_files']['tmp_name'];
         foreach ($album_files as $af) {
             $album_photo = mt_rand();
             // s3に保存するだけの関数
@@ -92,19 +87,43 @@ class GithubController extends Controller {
         $album_members = AlbumMember::all();
         $album_photos = AlbumPhoto::all();
         
-        return view('github', ["users" => $users, "albums" => $albums, "album_members" => $album_members, "album_photos" => $album_photos]); 
+        return view('photal', ["users" => $users, "albums" => $albums, "album_members" => $album_members, "album_photos" => $album_photos]); 
+    }
+    
+    public function deleteAlbum($album_id){
+        $albums = Album::all();
+        Log::info($album_id);
+        $album = Album::where('album_id',$album_id)->delete();
+        // Album::destroy($album->id);
+        Log::info($album);
+        \Session::flash('flash_message', '削除しました。');
+        
+        $users = User::all();
+        $albums = Album::all();
+        $album_members = AlbumMember::all();
+        $album_photos = AlbumPhoto::all();
+        return redirect('/photal');
     }
 
-    // アルバムを削除(DELETE)(削除)
-    public function deleteAlbum(Request $request) { 
-    }
+    // アルバムに写真追加(Put)(編集)
+    public function putAlbum(Request $request, $album_id) { 
+        // バリデーションチェック
+        $request->validate([
+            'album_files' => 'required'
+        ]);
 
-    // アルバムを編集(Put)(編集)
-    public function putAlbum(Request $request) { 
+        $album_files = $_FILES['album_files']['tmp_name'];
+        foreach ($album_files as $af) {
+            $album_photo = mt_rand();
+            // s3に保存するだけの関数
+            $this->s3upload($album_photo, file_get_contents($af));
+            AlbumPhoto::insert(["album_id" => $album_id, "album_photo" => $album_photo]); 
+        }
+        return redirect('/photal');
     }
 
     // 名前とかの新規登録画面の表示
-    public function top(Request $request)
+    public function index(Request $request)
     {
         $token = $request->session()->get('github_token', null);
 
@@ -122,11 +141,19 @@ class GithubController extends Controller {
         ]);
 
         $app_user = DB::select('select * from public.user where github_id = ?', [$github_user->user['login']]);
-
-        return view('github', [
+        
+        $users = User::all();
+        $albums = Album::all();
+        $album_members = AlbumMember::all();
+        $album_photos = AlbumPhoto::all();
+        return view('photal', [
             'user' => $app_user[0],
             'nickname' => $github_user->nickname,
             'token' => $token,
+            "users" => $users,
+            "albums" => $albums,
+            "album_members" => $album_members, 
+            "album_photos" => $album_photos,
             'repos' => array_map(function($o) {
                 return $o->name;
             }, json_decode($res->getBody()))
