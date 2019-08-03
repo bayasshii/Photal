@@ -21,6 +21,9 @@ Route::get('login/github', 'Auth\LoginController@redirectToProvider');
 Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
 Route::post('user', 'User\UserController@updateUser');
 
+// Gitログアウト
+Route::post('/photal/logout', 'Photal\PhotalController@GitLogout');
+
 // 投稿機能
 Route::get('photal', 'Photal\PhotalController@index');
 Route::post('photal', 'Photal\PhotalController@createAlbum');
@@ -33,3 +36,7 @@ Route::post('/photal/put/{id}', 'Photal\PhotalController@putAlbum');
 
 // アルバム詳細画面
 Route::get('/photal/detail/{id}', 'Photal\PhotalController@detailAlbum');
+
+// ajax
+Route::get('/contacts', 'ContactController@index');
+Route::post('/ajax/contacts', 'Ajax\ContactController@store');

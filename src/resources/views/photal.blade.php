@@ -2,31 +2,36 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ asset('css/hoge.css') }}">
         <title>画像投稿</title>
+        <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     </head>
     <body>
-        <!--名前登録(もしまだ登録してなかったら)-->
-        @isset($user)
-            @empty($user->name)
-                <div>
-                    <form action="/user" method="post">
-                        {{ csrf_field() }}
-                        
-                        <div>お名前 : <input type="text" name="name" value="{{$user->name}}"></div>
-                        
-                        <div>コメント : <input type="text" name="comment" value="{{$user->comment}}"></div>
-                        
-                        
-                        <input type="submit" value="Confirm">
-                    </form>
-                </div>
-            @endempty
-        @endisset
 
-         <!-- アルバム新規登録 -->
+        <!--プロフィール表示-->
+        @if(isset($github_user))
+            <div>
+                ログイン済みです。<br>
+                あなたのお名前 ： {{$github_user->nickname}}<br>
+                あなたの画像 ： <img src="https://avatars1.githubusercontent.com/u/{{$github_user->id}}?s=460&v=4">
+            </div>
+        @else
+            <div>
+                ログインできてまセーンです。<br>
+                あなたのお名前 ：ノーン<br>
+                <a href="/login/github">ログインしよう！</a>
+            </div>
+        @endif
+        <form action="/photal/logout" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <button type="submit" class="btn">押すなキケン</button>
+        </form>
+
+        <!-- アルバム新規登録 -->
         <div class="hoge">
+        <div id="aaa"></div>
             <form action="/photal" method="post" enctype="multipart/form-data">
                 <ul>
                     <li>アルバム名 : <input type="text" name="album_name"></li>
@@ -37,14 +42,14 @@
                     <input type="date" name="album_endDate"></li>
                     　
                     <li>写真 : 
-                      <input type="file" class="form-control" name="album_files[]" multiple>
+                        <input type="file" class="form-control" name="album_files[]" multiple>
                     </li>
 
                     <li>メンバー : 
                         <select name="album_members[]" multiple>
-                            @isset($users)
-                                @foreach($users as $u)
-                                    <option value="{{ $u->name }}">{{ $u->name }}</option>
+                            @isset($app_users)
+                                @foreach($app_users as $u)
+                                    <option value="{{ $u->github_id }}">{{ $u->github_id }}</option>
                                 @endforeach
                             @endisset
                         </select>
@@ -112,5 +117,18 @@
                 </div>
             @endforeach
         @endisset
+        <script>
+            $( function() {
+                $.ajax( {
+                    //実行する処理。
+                    type: 'GET',
+                    url: 'http://127.0.0.1/contacts',
+                    dataType: 'text',
+                    success: function(response){
+                        let hensu = "ssss";
+                        document.getElementById("aaa").innerHTML = response;
+                    }});
+                });
+        </script>
     </body>
 </html>
