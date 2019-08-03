@@ -15,6 +15,7 @@ class CreateTable extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('user_id')->nullable();
             $table->string('name')->nullable();
             $table->string('comment')->nullable();
             $table->string('github_id');

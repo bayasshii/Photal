@@ -9,7 +9,7 @@ use Socialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use App\User;
+use App\Model\User;
 use App\Model\Album;
 use App\Model\AlbumMember;
 use App\Model\AlbumPhoto;
@@ -86,8 +86,24 @@ class PhotalController extends Controller {
         $albums = Album::all();
         $album_members = AlbumMember::all();
         $album_photos = AlbumPhoto::all();
+
+        try {
+            $token = $request->session()->get('github_token', null);
+            $github_user = Socialite::driver('github')->userFromToken($token);
+            $app_users = DB::select('select * from public.user');
+        } catch (Exception $e) {
+            $github_user = null;
+            $app_users = null;
+        }
         
-        return view('photal', ["users" => $users, "albums" => $albums, "album_members" => $album_members, "album_photos" => $album_photos]); 
+        return view('photal',[
+            "users" => $users,
+            "albums" => $albums,
+            "album_members" => $album_members,
+            "album_photos" => $album_photos,
+            "github_user"=>$github_user,
+            "app_users"=>$app_users
+        ]); 
     }
     
     public function deleteAlbum($album_id){
@@ -106,12 +122,12 @@ class PhotalController extends Controller {
     }
 
     // アルバムに写真追加(Put)(編集)
-    public function putAlbum(Request $request, $album_id) { 
+    public function putAlbum(Request $request, $album_id) {
         // バリデーションチェック
         $request->validate([
             'album_files' => 'required'
         ]);
-
+        
         $album_files = $_FILES['album_files']['tmp_name'];
         foreach ($album_files as $af) {
             $album_photo = mt_rand();
@@ -122,46 +138,32 @@ class PhotalController extends Controller {
         return redirect('/photal');
     }
 
-    // 名前とかの新規登録画面の表示
-    public function index(Request $request)
-    {
-        $token = $request->session()->get('github_token', null);
-
-        try {
-            $github_user = Socialite::driver('github')->userFromToken($token);
-        } catch (\Exception $e) {
-            return redirect('login/github');
-        }
-
-        $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'https://api.github.com/user/repos', [
-            'headers' => [
-                'Authorization' => 'token ' . $token
-            ]
-        ]);
-
-        $app_user = DB::select('select * from public.user where github_id = ?', [$github_user->user['login']]);
-        
-        $users = User::all();
+    // ログインとか
+    public function index(Request $request ){
         $albums = Album::all();
         $album_members = AlbumMember::all();
         $album_photos = AlbumPhoto::all();
+            
+        try {
+            $token = $request->session()->get('github_token', null);
+            $github_user = Socialite::driver('github')->userFromToken($token);
+            $app_users = DB::select('select * from public.user');
+        } catch (Exception $e) {
+            $github_users = null;
+            $app_user = null;
+        }
+        
         return view('photal', [
-            'user' => $app_user[0],
-            'nickname' => $github_user->nickname,
-            'token' => $token,
-            "users" => $users,
+            'github_user' => $github_user,
+            "app_users" => $app_users,
             "albums" => $albums,
             "album_members" => $album_members, 
-            "album_photos" => $album_photos,
-            'repos' => array_map(function($o) {
-                return $o->name;
-            }, json_decode($res->getBody()))
+            "album_photos" => $album_photos
         ]);
     }
 
-    public function album(Request $request)
-    {
-
+    public function gitLogout(Request $request) {
+        Photal::logout();
+        return redirect('photal');
     }
 }
