@@ -35,8 +35,14 @@ Route::post('/photal/delete/{id}', 'Photal\PhotalController@deleteAlbum');
 Route::post('/photal/put/{id}', 'Photal\PhotalController@putAlbum');
 
 // アルバム詳細画面
-Route::get('/photal/detail/{id}', 'Photal\PhotalController@detailAlbum');
+Route::get('/photal/detail/{albam_id}', 'Photal\PhotalController@detailAlbum');
 
 // ajax
+// いいね
+Route::post('/phlove', 'Photal\PhotalController@execLove');
+
+// テスト
+Route::get('/photal/api', 'Photal\PhotalController@get_api');
+
 Route::get('/contacts', 'ContactController@index');
 Route::post('/ajax/contacts', 'Ajax\ContactController@store');

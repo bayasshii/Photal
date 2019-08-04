@@ -76,10 +76,10 @@ class PhotalController extends Controller {
         // album_photos
         $album_files = $_FILES['album_files']['tmp_name'];
         foreach ($album_files as $af) {
-            $album_photo = mt_rand();
+            $album_photo_id= mt_rand();
             // s3に保存するだけの関数
-            $this->s3upload($album_photo, file_get_contents($af));
-            AlbumPhoto::insert(["album_id" => $album_id, "album_photo" => $album_photo]); 
+            $this->s3upload($album_photo_id, file_get_contents($af));
+            AlbumPhoto::insert(["album_id" => $album_id, "album_photo_id" => $album_photo_id]); 
         }
         
         $users = User::all();
@@ -130,15 +130,15 @@ class PhotalController extends Controller {
         
         $album_files = $_FILES['album_files']['tmp_name'];
         foreach ($album_files as $af) {
-            $album_photo = mt_rand();
+            $album_photo_id = mt_rand();
             // s3に保存するだけの関数
             $this->s3upload($album_photo, file_get_contents($af));
-            AlbumPhoto::insert(["album_id" => $album_id, "album_photo" => $album_photo]); 
+            AlbumPhoto::insert(["album_id" => $album_id, "album_photo_id" => $album_photo_id]); 
         }
         return redirect('/photal');
     }
 
-    // ログインとか
+    // ログインとか(GET)
     public function index(Request $request ){
         $albums = Album::all();
         $album_members = AlbumMember::all();
@@ -165,5 +165,52 @@ class PhotalController extends Controller {
     public function gitLogout(Request $request) {
         Photal::logout();
         return redirect('photal');
+    }
+
+    public function detailAlbum(Request $request, $album_id) {
+        $albums = Album::all();
+        $album_members = AlbumMember::all();
+        $album_photos = AlbumPhoto::all();
+        
+        $this_album = $albums->where('album_id', $album_id)->first();
+        
+        try {
+            $token = $request->session()->get('github_token', null);
+            $github_user = Socialite::driver('github')->userFromToken($token);
+            $app_users = DB::select('select * from public.user');
+        } catch (Exception $e) {
+            $github_users = null;
+            $app_user = null;
+        }
+        
+        return view('photal/detail', [
+            'this_album' => $this_album,
+            'github_user' => $github_user,
+            "app_users" => $app_users,
+            "albums" => $albums,
+            "album_members" => $album_members, 
+            "album_photos" => $album_photos
+        ]);
+    }
+
+    public function get_api(Request $request) {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With");
+
+        $lastName = $request->last_name;
+        $lastName = $lastName . $lastName;
+
+        $albums = Album::all();
+        $album_members = AlbumMember::all();
+        $album_photos = AlbumPhoto::all();
+        // $album_id = $request->album_id;
+        // $album_id = $album_id;
+        // $data = response()->json(['album_id'=>$album_id]);
+        $data = response()->json([
+            'lastName'=>$lastName, 
+            "albums" => $albums,
+            "album_members" => $album_members, 
+            "album_photos" => $album_photos]);
+        return $data;
     }
 }

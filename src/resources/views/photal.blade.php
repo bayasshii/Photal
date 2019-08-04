@@ -31,7 +31,6 @@
 
         <!-- アルバム新規登録 -->
         <div class="hoge">
-        <div id="aaa"></div>
             <form action="/photal" method="post" enctype="multipart/form-data">
                 <ul>
                     <li>アルバム名 : <input type="text" name="album_name"></li>
@@ -72,10 +71,14 @@
         @endif
 
         <!-- 投稿表示 -->
+        <div>テストだよん</div>
+        <div id="app">
+            <showalbum-component></showalbum-component>
+        </div>
         @isset($albums)
             @foreach ($albums as $a)
                 <div class="album__container">
-                    <a href="/photal/put/{{$a->album_id}}">詳細へ</a>
+                    <a href="/photal/detail/{{$a->album_id}}">詳細へ</a>
                     @php
                         $albumMembers = $album_members->where('album_id', $a->album_id);
                         $albumPhotos = $album_photos->where('album_id', $a->album_id);
@@ -97,7 +100,7 @@
                         <div class="album__imgsContainer">
                             @foreach ($albumPhotos as $ap)
                                 <div class="album__imgsContainer--item">
-                                    <img src="https://bayashi.s3-ap-northeast-1.amazonaws.com/{{$ap->album_photo}}">
+                                    <img src="https://bayashi.s3-ap-northeast-1.amazonaws.com/{{$ap->album_photo_id}}">
                                 </div>
                                     @endforeach
                         </div>
@@ -117,18 +120,6 @@
                 </div>
             @endforeach
         @endisset
-        <script>
-            $( function() {
-                $.ajax( {
-                    //実行する処理。
-                    type: 'GET',
-                    url: 'http://127.0.0.1/contacts',
-                    dataType: 'text',
-                    success: function(response){
-                        let hensu = "ssss";
-                        document.getElementById("aaa").innerHTML = response;
-                    }});
-                });
-        </script>
+        <script src="{{ asset('/js/app.js') }}"></script>
     </body>
 </html>
