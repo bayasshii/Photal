@@ -54,5 +54,10 @@ Route::post('/api/photal/love', 'Photal\PhotalController@postLove');
 // アルバムid入れたらいろんな情報返してくれる最強API
 Route::post('/api/photal/getSelfData', 'Photal\PhotalController@getSelfData');
 
+// アルバムの更新
+Route::post('/api/photal/upload', 'Photal\PhotalController@albumUpload');
+// 写真の削除
+Route::post('/api/photal/deletePhotos', 'Photal\PhotalController@deletePhotos');
+
 Route::post('/api/photal/put', 'Photal\PhotalController@putInfo');
 Route::get('/api/photal/home', 'Photal\PhotalController@getHomeInfo');

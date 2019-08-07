@@ -98,7 +98,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 .modal__contents {
     z-index:10; 
@@ -108,7 +107,30 @@ body {
     left:0;
     right:0;
     bottom:0;
-    height: 300px;
-    width: 600px;
+    height: 80%;
+    width: 80%;
     background: #fff;
+
+    /* スクロールさせる */
+    overflow-y: auto;
+}
+
+.photo_input {
+    padding: 10px;
+}
+.photo_input label input {
+    display: none;
+}
+.photo_input label {
+    padding: 10px;
+    border: solid 1px #888;
+} 
+.photo_input label::after {
+    font-size: 1rem;
+    color: #888;
+    padding-left: 1rem;
+}
+
+.delete_img {
+    opacity: 0.1;
 }

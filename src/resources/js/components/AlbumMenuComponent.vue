@@ -1,12 +1,12 @@
 <template>
     <div>
-        <button @click="Click()">
+        <button @click="Click(album_id)">
             <!--編集用モーダル出したい-->
             編集する
         </button>
         <EditAlbumComponent
-            :album_id = album_id
             ref="modal"
+            @update="update"
         />
     </div>
 </template>
@@ -22,9 +22,11 @@
             album_id: Number,
         },
         methods: {
-            Click: function(){
-                this.$refs.modal.openModal()
-                this.$refs.modal.getInfo(album_id)
+            Click: function(album_id){
+                this.$refs.modal.openModal(album_id)
+            },
+            update:function(){
+                this.$emit('getInfo')
             }
         }
     }

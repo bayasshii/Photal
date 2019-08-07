@@ -1688,8 +1688,6 @@ module.exports = {
 
 /***/ }),
 
-<<<<<<< HEAD
-=======
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AlbumMenuComponent.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AlbumMenuComponent.vue?vue&type=script&lang=js& ***!
@@ -1723,9 +1721,11 @@ __webpack_require__.r(__webpack_exports__);
     album_id: Number
   },
   methods: {
-    Click: function Click() {
-      this.$refs.modal.openModal();
-      this.$refs.modal.getInfo(album_id);
+    Click: function Click(album_id) {
+      this.$refs.modal.openModal(album_id);
+    },
+    update: function update() {
+      this.$emit('getInfo');
     }
   }
 });
@@ -1741,6 +1741,37 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1771,8 +1802,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+    var _ref;
+
     //データの初期値を設定
-    return {
+    return _ref = {
       album_name: "",
       github_user: "",
       app_users: [],
@@ -1782,20 +1815,37 @@ __webpack_require__.r(__webpack_exports__);
       album_photos: [],
       AlbumPhotos: [],
       uploadFile: null
-    };
+    }, _defineProperty(_ref, "AlbumMembersSelected", []), _defineProperty(_ref, "imageData", []), _ref;
   },
   methods: {
     selectedFile: function selectedFile(e) {
+      var _this = this;
+
       // 選択された File の情報を保存しておく
       e.preventDefault();
       var files = e.target.files;
-      this.uploadFile = files;
-      console.log(this.uploadFile);
+      this.uploadFile = files; // プレビュー表示するためにrender系の色々する
+
+      if (this.uploadFile.length > 0) {
+        for (var i = 0; i < this.uploadFile.length; i++) {
+          var file = this.uploadFile[i];
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            _this.imageData.push(e.target.result);
+          };
+
+          reader.readAsDataURL(file);
+        }
+      }
     },
     // Dataを送信する
     postInfo: function postInfo() {
       axios.defaults.withCredentials = true;
-      var album_id = Math.floor(Math.random() * 1000000);
+      var album_id = Math.floor(Math.random() * 100000000); // メンバーに自分も追加
+
+      this.AlbumMembersSelected.push(this.github_user.nickname); // 送信するためにまとめてjsonに入れる
+
       var albumData = {
         album_name: this.AlbumName,
         album_members_selected: this.AlbumMembersSelected,
@@ -1808,7 +1858,8 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           'content-type': 'multipart/form-data'
         }
-      };
+      }; // 良い感じに画像送信するためのあれこれ
+
       var api = axios.create();
       var array = [];
 
@@ -1817,11 +1868,18 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('image', this.uploadFile[i]);
         formData.append('album_id', album_id);
         array.push(api.post('api/photalTest', formData, config));
-      }
+      } // 画像以外のデータの送信
 
-      axios.post('api/photal/', albumData);
+
+      axios.post('api/photal/', albumData); // 再読み込み
+
       Promise.all(array).then(function () {
-        this.$emit('callParent');
+        this.$emit('callParent'); // フォームの初期化
+
+        this.uploadFile = null;
+        this.AlbumName = "";
+        this.AlbumMembersSelected = [];
+        this.imageData = [];
       }.bind(this));
     },
     // 情報取得
@@ -1832,6 +1890,7 @@ __webpack_require__.r(__webpack_exports__);
         self.album_members = res.data.album_members;
         self.album_photos = res.data.album_photos;
         self.app_users = res.data.app_users;
+        self.github_user = res.data.github_user;
       });
     }
   },
@@ -1852,6 +1911,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var body_scroll_lock__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! body-scroll-lock */ "./node_modules/body-scroll-lock/lib/bodyScrollLock.min.js");
+/* harmony import */ var body_scroll_lock__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(body_scroll_lock__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1872,13 +1933,78 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    album_id: Number
-  },
   data: function data() {
     return {
-      showContent: false
+      showContent: false.axios,
+      album_id: "",
+      album_name: "",
+      AlbumName: "",
+      album_members: "",
+      album_photos: "",
+      AlbumMembersSelected: [],
+      app_users: [],
+      github_user: [],
+      album_delete_photos: []
     };
   },
   methods: {
@@ -1888,34 +2014,113 @@ __webpack_require__.r(__webpack_exports__);
       };
       var self = this;
       axios.post('api/photal/getSelfData', data).then(function (res) {
-        console.log("やったぜ");
-        self.albums = res.data.albums;
+        self.album_name = res.data.album_name;
         self.album_members = res.data.album_members;
         self.album_photos = res.data.album_photos;
-        self.love_counts = res.data.love_counts;
-        self.github_user = res.data.github_user;
-        self.your_love_photos = res.data.your_love_photos;
+        self.app_users = res.data.app_users;
+        self.github_user = res.data.github_user; // デフォルトのメンバーを代入
+
+        self.AlbumMembersSelected = [];
+        self.album_members.forEach(function (member) {
+          var member_name = member.album_member;
+          self.AlbumMembersSelected.push(member_name);
+        });
       });
+    },
+    selectedFile: function selectedFile(e) {
+      // 選択された File の情報を保存しておく
+      e.preventDefault();
+      var files = e.target.files;
+      this.uploadFile = files;
+    },
+    postPhoto: function postPhoto() {
+      // 良い感じに画像送信するためのあれこれ
+      var api = axios.create();
+      var array = [];
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+
+      for (var i = 0; i < this.uploadFile.length; i++) {
+        var formData = new FormData();
+        formData.append('image', this.uploadFile[i]);
+        formData.append('album_id', this.album_id);
+        array.push(api.post('api/photalTest', formData, config));
+      } // 再読み込み
+
+
+      Promise.all(array).then(function () {
+        this.getInfo(this.album_id); // フォームの初期化
+
+        this.uploadFile = null;
+      }.bind(this));
     },
     delete_album: function delete_album() {
       var data = {
-        album_id: album_id
+        album_id: this.album_id
       };
       axios.post('api/photal/delete', data);
-      this.$emit('callParent');
+      this.$emit('update');
+      this.closeModal();
     },
-    openModal: function openModal() {
+    delete_photo: function delete_photo(album_photo_id) {
+      if (this.album_delete_photos.filter(function (id) {
+        return id == album_photo_id;
+      }).length) {
+        this.album_delete_photos = this.album_delete_photos.filter(function (id) {
+          return id !== album_photo_id;
+        });
+      } else {
+        this.album_delete_photos.push(album_photo_id);
+      }
+    },
+    delete_photos: function delete_photos(album_photo_id) {
+      var _this = this;
+
+      var data = {
+        album_delete_photos: this.album_delete_photos
+      };
+      axios.post('api/photal/deletePhotos', data).then(function (res) {
+        _this.$emit('update');
+
+        _this.getInfo(_this.album_id);
+      });
+    },
+    upload_album: function upload_album() {
+      var _this2 = this;
+
+      var data = {
+        album_id: this.album_id,
+        album_name: this.album_name,
+        album_members: this.AlbumMembersSelected
+      };
+      console.log("---------------------");
+      axios.post('api/photal/upload', data).then(function (res) {
+        console.log("いけたっぽい！");
+
+        _this2.$emit('update');
+
+        _this2.getInfo(_this2.album_id);
+      });
+    },
+    openModal: function openModal(album_id) {
       this.showContent = true;
+      this.getInfo(album_id);
+      this.album_id = album_id;
+      var modal = document.querySelector('#modal');
+      Object(body_scroll_lock__WEBPACK_IMPORTED_MODULE_0__["disableBodyScroll"])(modal);
     },
     closeModal: function closeModal() {
       this.showContent = false;
+      Object(body_scroll_lock__WEBPACK_IMPORTED_MODULE_0__["clearAllBodyScrollLocks"])();
     }
   }
 });
 
 /***/ }),
 
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -1941,11 +2146,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-=======
 //
 //
 //
@@ -2326,9 +2526,23 @@ __webpack_require__.r(__webpack_exports__);
       // 表示データの再読み込みさせる.
       this.$refs.hoge.toChild();
     }
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/body-scroll-lock/lib/bodyScrollLock.min.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/body-scroll-lock/lib/bodyScrollLock.min.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (t),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else { var o; }}(this,function(exports){"use strict";function r(e){if(Array.isArray(e)){for(var t=0,o=Array(e.length);t<e.length;t++)o[t]=e[t];return o}return Array.from(e)}Object.defineProperty(exports,"__esModule",{value:!0});var l=!1;if("undefined"!=typeof window){var e={get passive(){l=!0}};window.addEventListener("testPassive",null,e),window.removeEventListener("testPassive",null,e)}var d="undefined"!=typeof window&&window.navigator&&window.navigator.platform&&/iP(ad|hone|od)/.test(window.navigator.platform),c=[],u=!1,a=-1,s=void 0,v=void 0,f=function(t){return c.some(function(e){return!(!e.options.allowTouchMove||!e.options.allowTouchMove(t))})},m=function(e){var t=e||window.event;return!!f(t.target)||(1<t.touches.length||(t.preventDefault&&t.preventDefault(),!1))},o=function(){setTimeout(function(){void 0!==v&&(document.body.style.paddingRight=v,v=void 0),void 0!==s&&(document.body.style.overflow=s,s=void 0)})};exports.disableBodyScroll=function(i,e){if(d){if(!i)return void console.error("disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.");if(i&&!c.some(function(e){return e.targetElement===i})){var t={targetElement:i,options:e||{}};c=[].concat(r(c),[t]),i.ontouchstart=function(e){1===e.targetTouches.length&&(a=e.targetTouches[0].clientY)},i.ontouchmove=function(e){var t,o,n,r;1===e.targetTouches.length&&(o=i,r=(t=e).targetTouches[0].clientY-a,!f(t.target)&&(o&&0===o.scrollTop&&0<r?m(t):(n=o)&&n.scrollHeight-n.scrollTop<=n.clientHeight&&r<0?m(t):t.stopPropagation()))},u||(document.addEventListener("touchmove",m,l?{passive:!1}:void 0),u=!0)}}else{n=e,setTimeout(function(){if(void 0===v){var e=!!n&&!0===n.reserveScrollBarGap,t=window.innerWidth-document.documentElement.clientWidth;e&&0<t&&(v=document.body.style.paddingRight,document.body.style.paddingRight=t+"px")}void 0===s&&(s=document.body.style.overflow,document.body.style.overflow="hidden")});var o={targetElement:i,options:e||{}};c=[].concat(r(c),[o])}var n},exports.clearAllBodyScrollLocks=function(){d?(c.forEach(function(e){e.targetElement.ontouchstart=null,e.targetElement.ontouchmove=null}),u&&(document.removeEventListener("touchmove",m,l?{passive:!1}:void 0),u=!1),c=[],a=-1):(o(),c=[])},exports.enableBodyScroll=function(t){if(d){if(!t)return void console.error("enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices.");t.ontouchstart=null,t.ontouchmove=null,c=c.filter(function(e){return e.targetElement!==t}),u&&0===c.length&&(document.removeEventListener("touchmove",m,l?{passive:!1}:void 0),u=!1)}else(c=c.filter(function(e){return e.targetElement!==t})).length||o()}});
+
 
 /***/ }),
 
@@ -37611,8 +37825,6 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-<<<<<<< HEAD
-=======
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AlbumMenuComponent.vue?vue&type=template&id=3a444b4c&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AlbumMenuComponent.vue?vue&type=template&id=3a444b4c& ***!
@@ -37636,17 +37848,14 @@ var render = function() {
         {
           on: {
             click: function($event) {
-              return _vm.Click()
+              return _vm.Click(_vm.album_id)
             }
           }
         },
-        [_vm._v("\n        編集する\n    ")]
+        [_vm._v("\n        編集する" + _vm._s(_vm.album_id) + "\n    ")]
       ),
       _vm._v(" "),
-      _c("EditAlbumComponent", {
-        ref: "modal",
-        attrs: { album_id: _vm.album_id }
-      })
+      _c("EditAlbumComponent", { ref: "modal", on: { update: _vm.update } })
     ],
     1
   )
@@ -37738,16 +37947,50 @@ var render = function() {
               ]),
               _vm._v(" "),
               _vm._l(_vm.app_users, function(app_user) {
+                return app_user.github_id != _vm.github_user.nickname
+                  ? _c(
+                      "option",
+                      {
+                        key: app_user.github_id,
+                        domProps: { value: app_user.github_id }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(app_user.github_id) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex" },
+            [
+              _c("div", { staticClass: "album__mambersContainer--item" }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.github_user.nickname) +
+                    "\n                    "
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.AlbumMembersSelected, function(members) {
                 return _c(
-                  "option",
+                  "div",
                   {
-                    key: app_user.github_id,
-                    domProps: { value: app_user.github_id }
+                    key: members,
+                    staticClass: "album__mambersContainer--item"
                   },
                   [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(app_user.github_id) +
+                        _vm._s(members) +
                         "\n                    "
                     )
                   ]
@@ -37759,15 +38002,38 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", [
+      _c("div", { staticClass: "photo_input" }, [
         _c("label", [
-          _vm._v("写真:\n                "),
+          _vm._v("写真を選んでね\n                "),
           _c("input", {
             ref: "img_inp",
-            attrs: { type: "file", multiple: "" },
+            attrs: { type: "file", accept: "image/*", multiple: "" },
             on: { change: _vm.selectedFile }
           })
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.imageData.length
+          ? _c("div", [
+              _c("div", [_vm._v("プレビュー")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "album__imgsContainer flex" },
+                _vm._l(_vm.imageData, function(image) {
+                  return _c(
+                    "div",
+                    { key: image, staticClass: "album__imgsContainer--item" },
+                    [
+                      _vm.imageData
+                        ? _c("img", { attrs: { src: image } })
+                        : _vm._e()
+                    ]
+                  )
+                }),
+                0
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c(
@@ -37835,23 +38101,163 @@ var render = function() {
         staticClass: "modal__contents"
       },
       [
-        _c("label", [
-          _vm._v("アルバム名:\n                "),
-          _c("input", {
-            attrs: { type: "text" },
-            domProps: { value: _vm.album_id }
-          })
-        ]),
-        _vm._v(" "),
-        _vm._v("\n        " + _vm._s(_vm.album_id)),
-        _c("br"),
-        _vm._v(" "),
-        _vm._v("\n        イェーイ"),
-        _c("br"),
-        _vm._v(" "),
         _c("button", { on: { click: _vm.delete_album } }, [
           _vm._v("\n                削除する\n        ")
-        ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("label", [
+            _vm._v("アルバム名:\n                "),
+            _c("input", {
+              attrs: { type: "text" },
+              domProps: { value: _vm.album_name }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("label", [
+            _vm._v("ともだち:\n                "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.AlbumMembersSelected,
+                    expression: "AlbumMembersSelected"
+                  }
+                ],
+                attrs: { multiple: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.AlbumMembersSelected = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { disabled: "", value: "" } }, [
+                  _vm._v("選択してね〜")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.app_users, function(app_user) {
+                  return app_user.github_id != _vm.github_user.nickname
+                    ? _c(
+                        "option",
+                        { domProps: { value: app_user.github_id } },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(app_user.github_id) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "flex" },
+              [
+                _c("div", { staticClass: "album__mambersContainer--item" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.github_user.nickname) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.AlbumMembersSelected, function(members) {
+                  return _vm.github_user.nickname != members
+                    ? _c(
+                        "div",
+                        { staticClass: "album__mambersContainer--item" },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(members) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                })
+              ],
+              2
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("button", { on: { click: _vm.upload_album } }, [
+          _vm._v("\n            変更を保存する\n        ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "photo_input" }, [
+          _c("label", [
+            _vm._v("写真を選んでね\n                "),
+            _c("input", {
+              ref: "img_inp",
+              attrs: { type: "file", accept: "image/*", multiple: "" },
+              on: { change: _vm.selectedFile }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("button", { on: { click: _vm.postPhoto } }, [
+          _vm._v("\n            写真送信！！！！！！！\n        ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "album__imgsContainer flex" },
+          _vm._l(_vm.album_photos, function(album_photo) {
+            return album_photo.album_id == _vm.album_id
+              ? _c("div", { staticClass: "album__imgsContainer--item" }, [
+                  _c("img", {
+                    class: {
+                      delete_img: _vm.album_delete_photos.filter(function(id) {
+                        return id == album_photo.album_photo_id
+                      }).length
+                    },
+                    attrs: {
+                      src:
+                        "https://bayashi.s3-ap-northeast-1.amazonaws.com/" +
+                        album_photo.album_photo_id
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.delete_photo(album_photo.album_photo_id)
+                      }
+                    }
+                  })
+                ])
+              : _vm._e()
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _vm.album_delete_photos.length
+          ? _c("div", [
+              _c("button", { on: { click: _vm.delete_photos } }, [
+                _vm._v("写真の削除(ゴミ箱)(モーダルのフッターみたいに)")
+              ])
+            ])
+          : _vm._e()
       ]
     )
   ])
@@ -37863,7 +38269,6 @@ render._withStripped = true
 
 /***/ }),
 
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -37879,30 +38284,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-<<<<<<< HEAD
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
-=======
   return _c(
     "div",
     [
@@ -38153,7 +38534,7 @@ var render = function() {
                           _c("AlbumMenuComponent", {
                             attrs: { album_id: a.album_id },
                             on: {
-                              callParent: function($event) {
+                              getInfo: function($event) {
                                 return _vm.getInfo()
                               }
                             }
@@ -38297,7 +38678,6 @@ var staticRenderFns = [
     return _c("form", { attrs: { method: "post" } }, [
       _c("button", { staticClass: "btn", attrs: { type: "submit" } }, [
         _vm._v("DELETE")
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
       ])
     ])
   }
@@ -38308,8 +38688,6 @@ render._withStripped = true
 
 /***/ }),
 
-<<<<<<< HEAD
-=======
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TimelineComponent.vue?vue&type=template&id=d82b9e3e&":
 /*!********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TimelineComponent.vue?vue&type=template&id=d82b9e3e& ***!
@@ -38343,7 +38721,6 @@ render._withStripped = true
 
 /***/ }),
 
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -38451,8 +38828,6 @@ function normalizeComponent (
 
 /***/ }),
 
-<<<<<<< HEAD
-=======
 /***/ "./node_modules/vue-router/dist/vue-router.esm.js":
 /*!********************************************************!*\
   !*** ./node_modules/vue-router/dist/vue-router.esm.js ***!
@@ -41140,7 +41515,6 @@ if (inBrowser && window.Vue) {
 
 /***/ }),
 
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /***/ "./node_modules/vue/dist/vue.common.dev.js":
 /*!*************************************************!*\
   !*** ./node_modules/vue/dist/vue.common.dev.js ***!
@@ -53174,18 +53548,12 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-<<<<<<< HEAD
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-=======
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -53205,30 +53573,22 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-<<<<<<< HEAD
-=======
 Vue.component('showalbum-component', __webpack_require__(/*! ./components/ShowAlbumComponent.vue */ "./resources/js/components/ShowAlbumComponent.vue")["default"]);
 Vue.component('createalbum-component', __webpack_require__(/*! ./components/CreateAlbumComponent.vue */ "./resources/js/components/CreateAlbumComponent.vue")["default"]);
 Vue.component('showhome-component', __webpack_require__(/*! ./components/ShowHomeComponent.vue */ "./resources/js/components/ShowHomeComponent.vue")["default"]);
 Vue.component('albummenu-component', __webpack_require__(/*! ./components/AlbumMenuComponent.vue */ "./resources/js/components/AlbumMenuComponent.vue")["default"]);
 Vue.component('timeline-component', __webpack_require__(/*! ./components/TimelineComponent.vue */ "./resources/js/components/TimelineComponent.vue")["default"]);
 Vue.component('editalbum-component', __webpack_require__(/*! ./components/EditAlbumComponent.vue */ "./resources/js/components/EditAlbumComponent.vue")["default"]);
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-<<<<<<< HEAD
-var app = new Vue({
-  el: '#app'
-=======
 
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var timeline = new Vue({
   el: '#timeline'
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 });
 
 /***/ }),
@@ -53291,8 +53651,6 @@ if (token) {
 
 /***/ }),
 
-<<<<<<< HEAD
-=======
 /***/ "./resources/js/components/AlbumMenuComponent.vue":
 /*!********************************************************!*\
   !*** ./resources/js/components/AlbumMenuComponent.vue ***!
@@ -53500,7 +53858,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -53570,8 +53927,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-<<<<<<< HEAD
-=======
 /***/ "./resources/js/components/ShowAlbumComponent.vue":
 /*!********************************************************!*\
   !*** ./resources/js/components/ShowAlbumComponent.vue ***!
@@ -53779,7 +54134,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
->>>>>>> e01d1f1de478510f28400b94b42f51df6604da42
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!

@@ -60,7 +60,7 @@
                 >
                     <AlbumMenuComponent
                         :album_id = a.album_id
-                        @callParent = "getInfo()"
+                        @getInfo = "getInfo()"
                     />
                 </div>
             </div>

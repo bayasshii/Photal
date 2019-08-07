@@ -329,6 +329,7 @@ class PhotalController extends Controller {
             AlbumPhoto::insert(["album_id" => $album_id, "album_photo_id" => $album_photo_id]); 
         }
     }
+
     public function albumDelete(Request $request) {
         $album_id = $request->album_id;
         Album::where('album_id',$album_id)->delete(); 
@@ -339,16 +340,20 @@ class PhotalController extends Controller {
     // album_idから色々返してくれる
     public function getSelfData(Request $request) {
         $album_id = $request->album_id;
+        $album_name = Album::where("album_id",$album_id)->first()->album_name;
 
-        $albums = Album::orderBy('id','desc')->get();
-        $album_name = $albums->where("album_id",$album_id)->first()->album_name;
+        $album_members = AlbumMember::where("album_id",$album_id)->get();
 
-        Log::info("----------------------");
-        Log::info($album_name);
-        Log::info("----------------------");
+        $album_photos = AlbumPhoto::where("album_id",$album_id)->get();
 
-        $album_members = AlbumMember::all();
-        $album_photos = AlbumPhoto::all();
+        try {
+            $token = $request->session()->get('github_token', null);
+            $github_user = Socialite::driver('github')->userFromToken($token);
+            $app_users = DB::select('select * from public.user');
+        } catch (Exception $e) {
+            $github_users = null;
+            $app_user = null;
+        }
 
 
         $data = response()->json([
@@ -356,10 +361,39 @@ class PhotalController extends Controller {
             "album_members" => $album_members, 
             "album_photos" => $album_photos,
             "app_users" => $app_users,
-            "github_user" => $github_user,
-            "love_counts" => $love_counts,
-            "your_love_photos" => $your_love_photos,
+            "github_user" => $github_user
         ]);
         return $data;
+    }
+
+    public function albumUpload(Request $request) {
+        Log::info("---------------------------------");
+        
+        $album_id = $request->album_id;
+        $album_name = $request->album_name;
+        $album_members = $request->album_members;
+
+        // タイトル変更
+        Log::info("---------------------------------");
+        $Album = Album::where("album_id",$album_id)->first();
+        $Album->album_name = $album_name;
+        $Album->save();
+
+        // メンバー変更
+        Log::info("---------------------------------");
+        AlbumMember::where("album_id",$album_id)->get()->delete();
+        foreach ($album_members as $album_member) {
+            AlbumMember::insert(["album_id"  => $album_id, "album_member" => $album_member]);
+        }
+    }
+
+    public function deletePhotos(Request $request) {
+        // 写真のID
+        $album_delete_photos = $request->album_delete_photos;
+        Log::info($album_delete_photos);
+        // 写真削除(s3からは消せてない)
+        foreach ($album_delete_photos as $album_photo_id) {
+            AlbumPhoto::where("album_photo_id", $album_photo_id)->delete();
+        }
     }
 }
