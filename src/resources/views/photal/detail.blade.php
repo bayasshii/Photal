@@ -18,8 +18,7 @@
                     $albumPhotos = $album_photos->where('album_id', $this_album->album_id);
                 @endphp
                 <h2>{{$this_album->album_name}}</h2>
-                <div>{{$this_album->album_startDate}} ~ {{$this_album->album_endDate}}</div>
-                
+                                
                 @isset($albumMembers)
                     <div class="album__membersContainer flex">
                         @foreach ($albumMembers as $am)

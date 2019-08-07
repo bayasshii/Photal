@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
 
 /**
@@ -22,6 +21,10 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('showalbum-component', require('./components/ShowAlbumComponent.vue').default);
 Vue.component('createalbum-component', require('./components/CreateAlbumComponent.vue').default);
+Vue.component('showhome-component', require('./components/ShowHomeComponent.vue').default);
+Vue.component('albummenu-component', require('./components/AlbumMenuComponent.vue').default);
+Vue.component('timeline-component', require('./components/TimelineComponent.vue').default);
+Vue.component('editalbum-component', require('./components/EditAlbumComponent.vue').default);
 
 
 
@@ -31,6 +34,9 @@ Vue.component('createalbum-component', require('./components/CreateAlbumComponen
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
+
+const timeline = new Vue({
+    el: '#timeline'
 });

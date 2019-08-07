@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLovePhotosTable extends Migration
+class CreateLoveCountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateLovePhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('love_photos', function (Blueprint $table) {
+        Schema::create('love_counts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('love_count')->nullable();
             $table->string('album_photo_id')->nullable();
+            $table->string('love_count')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateLovePhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('love_photos');
+        Schema::dropIfExists('love_counts');
     }
 }

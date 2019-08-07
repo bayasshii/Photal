@@ -21,7 +21,7 @@ Route::get('login/github', 'Auth\LoginController@redirectToProvider');
 Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
 Route::post('user', 'User\UserController@updateUser');
 
-// Gitログアウト
+// Gitログアウト(未実装)
 Route::post('/photal/logout', 'Photal\PhotalController@GitLogout');
 
 // 投稿機能
@@ -37,12 +37,22 @@ Route::post('/photal/put/{id}', 'Photal\PhotalController@putAlbum');
 // アルバム詳細画面
 Route::get('/photal/detail/{albam_id}', 'Photal\PhotalController@detailAlbum');
 
-// ajax
-// いいね
-Route::post('/phlove', 'Photal\PhotalController@execLove');
+// ホーム画面
+Route::get('photal/home/{user_id}', 'Photal\PhotalController@homeIndex');
 
-// テスト
-Route::get('/photal/api', 'Photal\PhotalController@get_api');
+// 非同期通信
+Route::get('/api/photal', 'Photal\PhotalController@getInfo');
+Route::post('/api/photal', 'Photal\PhotalController@postInfo');
 
-Route::get('/contacts', 'ContactController@index');
-Route::post('/ajax/contacts', 'Ajax\ContactController@store');
+// アルバム削除
+Route::post('/api/photal/delete', 'Photal\PhotalController@albumDelete');
+
+// 良いねしたり、新規作成したり
+Route::post('/api/photalTest', 'Photal\PhotalController@postInfoTest');
+Route::post('/api/photal/love', 'Photal\PhotalController@postLove');
+
+// アルバムid入れたらいろんな情報返してくれる最強API
+Route::post('/api/photal/getSelfData', 'Photal\PhotalController@getSelfData');
+
+Route::post('/api/photal/put', 'Photal\PhotalController@putInfo');
+Route::get('/api/photal/home', 'Photal\PhotalController@getHomeInfo');
