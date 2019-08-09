@@ -118,7 +118,7 @@
                 album_photos: "",
                 AlbumMembersSelected: [],
                 app_users: [],
-                github_user: [],
+                github_user: null,
                 album_delete_photos: [],
                 isActive: "A",
                 uploadFile: []

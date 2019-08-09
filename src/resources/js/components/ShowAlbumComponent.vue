@@ -5,7 +5,7 @@
                 <h2>{{album_name}}</h2>
             </div>
             <!--メンバー表示-->
-            <div class="album__header--members flex">
+            <div class="album__header--members flex flex-wrap">
                 <div 
                     v-for="am in album_members"
                     class="album__header--member"
@@ -134,7 +134,7 @@ import AlbumMenuComponent from './AlbumMenuComponent.vue'
                     console.log('アルバムname')
                     console.log(res.data.album_name)
                     console.log("------------------------")
-                    
+
                     self.album_members = res.data.album_members
                     // console.log('アルバムめんば')
                     // console.log(this.album_members)

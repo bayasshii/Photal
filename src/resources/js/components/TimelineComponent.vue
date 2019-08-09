@@ -24,7 +24,7 @@
             @click="showMore"
             v-if="computedAlbums.length > count"
         >
-            もっと見る
+            もっとアルバムを見る
         </div>
     </div>
 </template>

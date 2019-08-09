@@ -11709,7 +11709,7 @@ __webpack_require__.r(__webpack_exports__);
       album_photos: "",
       AlbumMembersSelected: [],
       app_users: [],
-      github_user: [],
+      github_user: null,
       album_delete_photos: [],
       isActive: "A",
       uploadFile: []
@@ -48224,7 +48224,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "album__header--members flex" },
+          { staticClass: "album__header--members flex flex-wrap" },
           _vm._l(_vm.album_members, function(am) {
             return _c(
               "div",
@@ -48462,7 +48462,7 @@ var render = function() {
         ? _c(
             "div",
             { staticClass: "albumBtn--show", on: { click: _vm.showMore } },
-            [_vm._v("\n        もっと見る\n    ")]
+            [_vm._v("\n        もっとアルバムを見る\n    ")]
           )
         : _vm._e()
     ],
