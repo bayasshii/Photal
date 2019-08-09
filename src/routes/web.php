@@ -47,44 +47,44 @@ Route::get('/photal/timeline','Photal\PhotalController@show');
 // ---------------------------------------------------
 
 // show画面にLOVEの情報持ってくる(userのgitidと照合して)
-Route::post('/photal/api/photal/loveInfo', 'Photal\PhotalController@getLoveInfo');
-Route::post('/photal/home/api/photal/loveInfo', 'Photal\PhotalController@getLoveInfo');
+Route::post('/api/photal/loveInfo', 'Photal\PhotalController@getLoveInfo');
+Route::post('/home/api/photal/loveInfo', 'Photal\PhotalController@getLoveInfo');
 
 // git系の情報
-Route::get('/photal/api/photal/github', 'Photal\PhotalController@getGithubInfo');
-Route::get('/photal/home/api/photal/github', 'Photal\PhotalController@getGithubInfo');
+Route::get('/api/photal/github', 'Photal\PhotalController@getGithubInfo');
+Route::get('/home/api/photal/github', 'Photal\PhotalController@getGithubInfo');
 
 // アルバムのIDを持ってくる
-Route::get('/photal/api/photal/albumId', 'Photal\PhotalController@getAlbumId');
-Route::post('/photal/home/api/photalTest', 'Photal\PhotalController@postInfoTest');
+Route::get('/api/photal/albumId', 'Photal\PhotalController@getAlbumId');
+Route::post('/home/api/photalTest', 'Photal\PhotalController@postInfoTest');
 
 // 新規アルバム作る
-Route::post('/photal/api/photal', 'Photal\PhotalController@postInfo');
+Route::post('/api/photal', 'Photal\PhotalController@postInfo');
 
 // 写真投稿用(ループするので↑のと切り分けた)
-Route::post('/photal/api/photalTest', 'Photal\PhotalController@postInfoTest');
-Route::post('/photal/home/api/photalTest', 'Photal\PhotalController@postInfoTest');
+Route::post('/api/photalTest', 'Photal\PhotalController@postInfoTest');
+Route::post('/home/api/photalTest', 'Photal\PhotalController@postInfoTest');
 
 // アルバム削除
-Route::post('/photal/api/photal/delete', 'Photal\PhotalController@albumDelete');
-Route::post('/photal/home/api/photal/delete', 'Photal\PhotalController@albumDelete');
+Route::post('/api/photal/delete', 'Photal\PhotalController@albumDelete');
+Route::post('/home/api/photal/delete', 'Photal\PhotalController@albumDelete');
 
 // 良いね
-Route::post('/photal/api/photal/love', 'Photal\PhotalController@postLove');
-Route::post('/photal/home/api/photal/love', 'Photal\PhotalController@postLove');
+Route::post('/api/photal/love', 'Photal\PhotalController@postLove');
+Route::post('/home/api/photal/love', 'Photal\PhotalController@postLove');
 
 // アルバムidをpostして、それに応じた情報色々返してくれる。最強APIなので使いまわしたい。
-Route::post('/photal/api/photal/getSelfData', 'Photal\PhotalController@getSelfData');
-Route::post('/photal/home/api/photal/getSelfData', 'Photal\PhotalController@getSelfData');
+Route::post('/api/photal/getSelfData', 'Photal\PhotalController@getSelfData');
+Route::post('/home/api/photal/getSelfData', 'Photal\PhotalController@getSelfData');
 
 // アルバムの更新
-Route::post('/photal/api/photal/upload', 'Photal\PhotalController@albumUpload');
-Route::post('/photal/home/api/photal/upload', 'Photal\PhotalController@albumUpload');
+Route::post('/api/photal/upload', 'Photal\PhotalController@albumUpload');
+Route::post('/home/api/photal/upload', 'Photal\PhotalController@albumUpload');
 
 // 写真の削除
-Route::post('/photal/api/photal/deletePhotos', 'Photal\PhotalController@deletePhotos');
-Route::post('/photal/home/api/photal/deletePhotos', 'Photal\PhotalController@deletePhotos');
+Route::post('/api/photal/deletePhotos', 'Photal\PhotalController@deletePhotos');
+Route::post('/home/api/photal/deletePhotos', 'Photal\PhotalController@deletePhotos');
 
 // home画面(gitのニックネーム取ってくる)
-Route::post('/photal/api/photal/home', 'Photal\PhotalController@getHomeInfo');
-Route::post('/photal/home/api/photal/home', 'Photal\PhotalController@getHomeInfo');
+Route::post('/api/photal/home', 'Photal\PhotalController@getHomeInfo');
+Route::post('/home/api/photal/home', 'Photal\PhotalController@getHomeInfo');
