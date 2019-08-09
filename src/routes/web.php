@@ -87,4 +87,4 @@ Route::post('/home/api/photal/deletePhotos', 'Photal\PhotalController@deletePhot
 
 // home画面(gitのニックネーム取ってくる)
 Route::post('/api/photal/home', 'Photal\PhotalController@getHomeInfo');
-Route::post('/home/api/photal/home', 'Photal\PhotalController@getHomeInfo');
+Route::post('/photal/home/api/photal/home', 'Photal\PhotalController@getHomeInfo');
