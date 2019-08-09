@@ -117,6 +117,7 @@ body {
 
 .flex {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .album__container {
@@ -682,6 +683,7 @@ body {
 .loginBtn{
     padding: 60px 120px;
     border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
 .loginBtn__container{

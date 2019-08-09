@@ -12043,6 +12043,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -48229,7 +48233,13 @@ var render = function() {
                 _c(
                   "router-link",
                   { attrs: { to: "/photal/home/" + am.album_member } },
-                  [_vm._v(_vm._s(am.album_member))]
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(am.album_member) +
+                        "\n                "
+                    )
+                  ]
                 )
               ],
               1

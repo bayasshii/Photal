@@ -10,7 +10,11 @@
                     v-for="am in album_members"
                     class="album__header--member"
                 >
-                    <router-link :to="'/photal/home/'+am.album_member">{{am.album_member}}</router-link>
+                    <router-link
+                        :to="'/photal/home/'+am.album_member"
+                    >
+                    {{am.album_member}}
+                    </router-link>
                 </div>
             </div>
             <!--メニュー-->
@@ -123,11 +127,14 @@ import AlbumMenuComponent from './AlbumMenuComponent.vue'
                 axios
                 .post('/api/photal/getSelfData', data)
                 .then(res =>  {
+
                     self.album_name = res.data.album_name
+
                     console.log("------------------------")
                     console.log('アルバムname')
                     console.log(res.data.album_name)
                     console.log("------------------------")
+                    
                     self.album_members = res.data.album_members
                     // console.log('アルバムめんば')
                     // console.log(this.album_members)
