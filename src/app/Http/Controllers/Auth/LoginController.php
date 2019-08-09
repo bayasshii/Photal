@@ -57,6 +57,6 @@ class LoginController extends Controller
         }
         $request->session()->put('github_token', $github_user->token);
 
-        return redirect('photal');
+        return redirect('photal/timeline');
     }
 }

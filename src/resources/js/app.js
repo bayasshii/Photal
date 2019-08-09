@@ -18,16 +18,6 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('showalbum-component', require('./components/ShowAlbumComponent.vue').default);
-Vue.component('createalbum-component', require('./components/CreateAlbumComponent.vue').default);
-Vue.component('showhome-component', require('./components/ShowHomeComponent.vue').default);
-Vue.component('albummenu-component', require('./components/AlbumMenuComponent.vue').default);
-Vue.component('timeline-component', require('./components/TimelineComponent.vue').default);
-Vue.component('editalbum-component', require('./components/EditAlbumComponent.vue').default);
-
-
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -37,6 +27,29 @@ Vue.component('editalbum-component', require('./components/EditAlbumComponent.vu
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
-const timeline = new Vue({
-    el: '#timeline'
+import Timeline from './components/TimelineComponent.vue';
+import Home from './components/HomeComponent.vue';
+
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faSpinner)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+
+const routes = [
+    { path: '/photal/timeline', name: 'timeline', component: Timeline},
+    { path: '/photal/home/:id', name: 'home', component: Home},
+];
+
+const router = new VueRouter({
+    mode: 'history',
+    routes
 });
+
+const app = new Vue({
+    router
+}).$mount('#app');

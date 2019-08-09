@@ -17,6 +17,8 @@ class ComposerStaticInit6c9313128278f7c9931c1903fb1ef189
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
+        '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -49,6 +51,10 @@ class ComposerStaticInit6c9313128278f7c9931c1903fb1ef189
             'League\\OAuth1\\' => 14,
             'Laravel\\Socialite\\' => 18,
         ),
+        'J' => 
+        array (
+            'JmesPath\\' => 9,
+        ),
         'I' => 
         array (
             'Illuminate\\Support\\' => 19,
@@ -70,6 +76,10 @@ class ComposerStaticInit6c9313128278f7c9931c1903fb1ef189
         'C' => 
         array (
             'Carbon\\' => 7,
+        ),
+        'A' => 
+        array (
+            'Aws\\' => 4,
         ),
     );
 
@@ -154,6 +164,10 @@ class ComposerStaticInit6c9313128278f7c9931c1903fb1ef189
         array (
             0 => __DIR__ . '/..' . '/laravel/socialite/src',
         ),
+        'JmesPath\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/jmespath.php/src',
+        ),
         'Illuminate\\Support\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/support',
@@ -193,6 +207,10 @@ class ComposerStaticInit6c9313128278f7c9931c1903fb1ef189
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Aws\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/aws/aws-sdk-php/src',
         ),
     );
 

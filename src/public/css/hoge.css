@@ -1,15 +1,118 @@
+/* 
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+    box-sizing:border-box;
+    font-family: "游ゴシック" , "Yu Gothic”;
+}
+
+ul{
+    list-style: none;
+}
+
 body {
-    padding: 30px;
+    line-height:1;
+    background-color: #f5f7f9;
+    color: #3a4c63;
+    font-family: "游ゴシック" , "Yu Gothic”;
 }
 
-.hoge {
-    border: 1px solid #555;
-    padding: 30px;
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section { 
+    display:block;
 }
 
-.hoge li {
+nav ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
     text-decoration: none;
-    padding: 20px 0;
+    background:transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000; 
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+hr {
+    display:block;
+    height:1px;
+    border:0;   
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+body {
+    padding: 120px 0;
 }
 
 .flex {
@@ -17,9 +120,9 @@ body {
 }
 
 .album__container {
-    padding: 20px;
-    border: 1px red solid;
     position: relative;
+    width: 693px;
+    margin: 50px auto;
 }
 
 .albumMenu {
@@ -28,27 +131,73 @@ body {
     top: 20px;
 }
 
-.album__mambersContainer--item {
-    border: 1px solid #999;
-    border-radius: 3px;
-    padding:0 10px;
-    margin: 0 10px;
-}
-
 .album__imgsContainer {
     flex-wrap: wrap;
+    padding-top: 155px;
+}
+
+.album__imgsContainer--item:nth-of-type(4n+1){
+    margin-left: 0;
+}
+
+.album__imgsContainer--item:nth-of-type(4n){
+    margin-right: 0;
 }
 
 .album__imgsContainer--item {
-    width: 200px;
-    height: 200px;
-    margin: 10px 10px 50px;
-
+    width: 170px;
+    height: 170px;
+    margin: 2px;
+    position: relative;
 }
 
 .album__imgsContainer--item img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+
+.album__imgsContainer--item {
+    background-color: #000;
+    border-radius: 5px;
+}
+
+.album__imgsContainer--item img:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.album__imgsContainer--item img:hover + .album__imgsContainer--love {
+    display: flex;
+}
+
+.album__imgsContainer--love {
+    display: flex;
+    pointer-events: none;
+}
+
+.album__imgsContainer--love {
+    color: #fff;
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 45%;
+    right: 55%;
+    left: 40%;
+    bottom: 50%;
+}
+
+.inline-box {
+    display: inline-block;
+}
+
+.album__imgsContainer--love img{
+    width: 20px;
+    height: 18px;
+    margin-right: 10px;
 }
 
 .menu-icon {
@@ -56,30 +205,11 @@ body {
     border: none;
     cursor: pointer;
     outline: none;
-  }
-  
-  .menu-list {
+}
+
+.menu-list {
     list-style-type: none;
     text-align: left;
-  }
-
-  #overlay{
-  /*　要素を重ねた時の順番　*/
-  z-index:1;
-
-  /*　画面全体を覆う設定　*/
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:rgba(0,0,0,0.5);
-
-  /*　画面の中央に要素を表示させる設定　*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
 }
 
 #overlay{
@@ -98,9 +228,29 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
+
+#overlay{
+    /*　要素を重ねた時の順番　*/
+    z-index:10;
+
+    /*　画面全体を覆う設定　*/
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.5);
+
+    /*　画面の中央に要素を表示させる設定　*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .modal__contents {
-    z-index:10; 
+    z-index:100; 
     position:fixed;
     margin: auto;
     top:0;
@@ -108,29 +258,420 @@ body {
     right:0;
     bottom:0;
     height: 80%;
-    width: 80%;
+    width: 1024px;
+    border-radius: 10px;
+    padding: 30px;
+    width: 1024px;
+    margin: auto;
     background: #fff;
 
     /* スクロールさせる */
     overflow-y: auto;
 }
 
-.photo_input {
-    padding: 10px;
+.delete_img {
+    opacity: 0.1;
 }
-.photo_input label input {
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 10%;
+    background: rgb(109, 176, 235);
+    border-bottom: 1px solid #f5f7f9;
+    z-index: 5;
+}
+
+.header__item {
+    color: white;
+    padding: 0 30px 0 0;
+    line-height: 60px;
+}
+
+.header__item a{
+    color: white;
+}
+
+.header__item a:hover{
+    opacity: 0.8;
+}
+
+.hello{
+    margin-left: auto;
+    padding-right: 0;
+}
+
+/* 編集ボタン */
+.editMenu {
+    transform:rotate(90deg);
+    width: 20px;
+}
+
+.editMenu:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+/* アルバムShow */
+
+.album__header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 150px;
+    padding: 20px;
+    background: linear-gradient(to right,rgb(109, 176, 235),rgb(193, 223, 251));
+    border-radius: 10px;
+}
+
+.album__header--title {
+    color: #fff;
+    font-size: 24px;
+    padding: 15px 20px;;
+}
+
+.album__header--member {
+    margin: 20px;
+}
+
+.album__header--member a {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: #fff;
+}
+
+.album__header--member a:hover {
+    opacity: 0.6;
+}
+
+.albumBtn--show {
+    width: 1024px;
+    border: 1px solid #aaa;
+    text-align: center;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+.albumBtn--show.open{
+    margin-bottom: 0;
+}
+
+.albumBtn--show.clese{
+    margin-bottom: 5px;
+}
+
+.albumBtn--show:hover {
+    cursor: pointer;
+}
+
+.open:hover {
+    border: rgb(109, 176, 235) 1px solid;
+    color: rgb(109, 176, 235);
+}
+
+.close:hover {
+    border: rgb(202, 43, 43) 1px solid;
+    color: rgb(202, 43, 43);
+}
+
+/* プロフィール */
+
+.profile__wrap {
+    width: 100%;
+    border-bottom: 1px solid #aaa
+}
+
+.profile__contents {
+    width: 800px;
+    margin: auto;
+    padding-bottom: 40px;
+}
+
+.profile--title {
+    font-size: 32px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+.profile__leftContents {
+    padding: 50px 0 0 50px;
+    width: 100%;
+    border-bottom: 1p solid #ddd
+}
+
+.profile--img {
+    border-radius: 50%;
+    width: 200px;
+}
+
+/*
+.profile--img  {
+    display: inline-block;
+    font-size: 3em;
+    animation: r1 20s linear infinite;
+}
+
+@keyframes r1 {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.profile--albumNumber {
+    font-size: 18px;
+}*/
+
+.creatAlbum__wrap {
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    padding: 30px;
+    width: 1024px;
+    margin: auto;
+}
+
+.albumName--input {
+    width: 99%;
+    height: 50px;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.albumName--input:focus {
+    outline: none;
+    border: rgb(109, 176, 235) 1px solid;
+}
+.albumName--input:hover {
+    border: rgb(109, 176, 235) 1px solid;
+}
+
+.albumImage--input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.photo_input {
+    width: 100%;
+    text-align: center;
+    height: 60px;
+    margin-bottom: 60px;
+}
+
+.photo_input .albumImage--input input {
     display: none;
 }
-.photo_input label {
-    padding: 10px;
-    border: solid 1px #888;
+
+.photo_input .albumImage--input {
+    padding: 60px 417px 90px 418px;
+    background: #fff;
+    font-size: 16px;
+    height: 40px;
+    border: solid 1px #ccc;
 } 
-.photo_input label::after {
-    font-size: 1rem;
-    color: #888;
+
+.photo_input .albumImage--input:hover {
+    cursor: pointer;
+    border: 1px solid rgb(109, 176, 235);
+}
+
+.photo_input .albumImage--input::after {
+    font-size: 16px;
+    color: #999;
     padding-left: 1rem;
 }
 
-.delete_img {
-    opacity: 0.1;
+.createAlbum--title {
+    width: 100%;
+    text-align: center;
+    font-size: 26px;
+    padding: 20px 0 40px;
+    border-bottom: 1px solid rgb(109, 176, 235);
+    margin-bottom: 40px;
+}
+
+.selecteFriend {
+    width: calc(100% + 5px);
+    margin: 40px 0 90px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px 30px;
+}
+
+.album__mambersContainer--item {
+    border-radius: 5px;
+    padding: 10px 20px;
+    height: 40px;
+    color: #3a4c63;
+    margin: 10px;
+    border: 1px solid #3a4c63;
+}
+
+.creatAlbum--submit {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    background: rgb(109, 176, 235);
+    margin: 40px 0 20px;
+    color: #fff;
+}
+
+.creatAlbum--submit:focus {
+    outline: none;
+}
+
+.creatAlbum--submit:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+.creatAlbum--submit:disabled {
+    cursor: wait;
+    opacity: 0.8;
+}
+
+
+.pt-10 {
+    padding-top: 20px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+/*たぶ*/
+.tab_box {
+    height: 100%;
+}
+.tab_list {
+    overflow: hidden;
+}
+.tab_list li {
+    width: 25%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 20px;
+}
+.tab_list li:not(:first-child) {
+    border-left: none;
+}
+.tab_list li.active {
+    background-color: #eee;
+    border-radius: 5px 5px 0 0;
+    cursor: auto;
+}
+.article{
+    height: 100%;
+    overflow: hidden;
+    margin-top: -1px;
+}
+.article li {
+    width: 100%;
+    height: 100%;
+    padding: 20px 0;
+    position: relative;
+}
+
+.tab_list li .creatAlbum--submit {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.deletealbum {
+    color: rgb(202, 43, 43);
+}
+
+.deletePhotoBtn {
+    background: rgb(202, 43, 43);
+}
+.deleteAlbumBtn{
+    background: rgb(202, 43, 43);
+    height: 80px;
+    line-height: 80px;
+    font-size: 20px;
+}
+
+.editItems--title {
+    font-size: 16px;
+    padding: 20px 0;
+}
+
+
+.selectMember {
+    width: 100px;
+}
+
+.selecteFriend .title{
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 0;
+}
+
+.memberNotSelected {
+    border-radius: 5px;
+    padding: 10px 20px;
+    height: 40px;
+    color: #3a4c63;
+    margin: 10px;
+    border: 1px solid rgb(109, 176, 235);
+}
+
+.memberSelected {
+    border-radius: 5px;
+    padding: 10px 20px;
+    height: 40px;
+    color: #fff;
+    margin: 10px;
+    background: rgb(109, 176, 235);
+}
+
+.memberSelected:hover{
+    cursor: pointer;
+}
+.memberNotSelected:hover{
+    cursor: pointer;
+}
+.mt-0 {
+    margin-top: 0;
+    padding-top: 20px;
+}
+.modal--images .album__imgsContainer--item{
+    width: 238px;
+    height: 238px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.textcenter {
+    flex-wrap: wrap;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.profile--img--mini{
+    width: 20px;
+}
+
+.pl-5 {
+    padding-left: 5px;
 }

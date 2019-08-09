@@ -3,75 +3,99 @@
         <div id="overlay" v-show="showContent" @click="closeModal">
         </div>
         <div class="modal__contents" v-show="showContent">
-            <button @click="delete_album">
-                    削除する
-            </button>
-            <!-- アルバムタイトル編集 -->
-            <div>
-                <label>アルバム名:
-                    <input type="text" v-bind:value="album_name">
-                </label>
-            </div>
+            <div class="tab_box">
+            <ul class="tab_list flex">
+                <li v-on:click="change('A')" v-bind:class="{'active': isActive === 'A'}">編集</li>
+                <li v-on:click="change('B')" v-bind:class="{'active': isActive === 'B'}">写真を追加</li>
+                <li v-on:click="change('C')" v-bind:class="{'active': isActive === 'C'}">写真を削除</li>
+                <li class="deletealbum" v-on:click="change('D')" v-bind:class="{'active': isActive === 'D'}">アルバムを削除</li>
+            </ul>
+        
+            <ul class="article">
+                <li v-if="isActive === 'A'">
+                    <!-- アルバムタイトル編集 -->
+                    <div>
+                        <div class="editItems--title">アルバム名</div>
+                        <input class="albumName--input" type="text" v-model="album_name">
+                    </div>
 
-            <!-- アルバムメンバー編集 -->
-            <div>
-                <label>ともだち:
-                    <select v-model="AlbumMembersSelected" multiple>
-                        <option disabled value="">選択してね〜</option>
-                        <option 
-                            v-for="app_user in app_users" 
-                            v-bind:value="app_user.github_id" 
-                            v-if="app_user.github_id != github_user.nickname"
-                        >
-                            {{ app_user.github_id }}
-                        </option>
-                    </select>
-                    <div class="flex">
-                        <div class="album__mambersContainer--item">
-                        {{github_user.nickname}}
-                        </div>
+                    <!-- アルバムメンバー編集 -->
+                    <div class="selecteFriend">
+                        <div class="title">ともだちを選択してね</div>
+                        <div class="title">現在、{{AlbumMembersSelected.length+1}}人 選択されています</div>
+                        <label class="flex">
+                            <div class="flex">
+                                <div class="memberSelected">
+                                    {{github_user.nickname}}
+                                </div>
+                            </div>
+                            <div
+                                v-for="app_user in app_users" 
+                                v-if="app_user.github_id != github_user.nickname"
+                                @click="addMember(app_user.github_id)"
+                            >
+                                <div
+                                    v-if="AlbumMembersSelected.some( function( value ) {return value === app_user.github_id})"
+                                    class="memberSelected"
+                                >
+                                    {{ app_user.github_id }}
+                                </div>
+                                <div
+                                    v-else
+                                    class="memberNotSelected"
+                                >
+                                    {{ app_user.github_id }}
+                                </div>
+
+                            </div>
+                        </label>
+                    </div>
+                    <button class="button creatAlbum--submit" v-bind:disabled="isPush" @click="upload_album">
+                        変更を保存する
+                    </button>
+                </li>
+                <li v-else-if="isActive === 'B'">
+                    <!-- 写真の追加 -->
+                    <div class="photo_input mt-30">
+                        <label class="albumImage--input">
+                            写真を選んでね
+                            <input @change="selectedFile" ref="img_inp" type="file" accept="image/*" multiple>
+                        </label>
+                        <div class="pt-10">現在、枚 選択されています</div>
+                    </div>
+                    <button v-bind:disabled="isPush" class="button creatAlbum--submit" @click="postPhoto">
+                        写真を保存する
+                    </button>
+                </li>
+                <li v-else-if="isActive === 'C'">
+                    <!-- アルバムフォト編集 -->
+                    <div>クリックして削除する写真を選択してください</div>
+                    <div class="modal--images album__imgsContainer mt-0 flex">
                         <div
-                            v-for="members in AlbumMembersSelected"
-                            class="album__mambersContainer--item"
-                            v-if="github_user.nickname != members"
+                            v-for="album_photo in album_photos"
+                            v-if="album_photo.album_id == album_id"
+                            class="album__imgsContainer--item"
                         >
-                            {{members}}
+                            <img
+                                @click="delete_photo(album_photo.album_photo_id)"
+                                :src="'https://bayashi.s3-ap-northeast-1.amazonaws.com/' + album_photo.album_photo_id"
+                                v-bind:class='{delete_img: album_delete_photos.filter(id => id == album_photo.album_photo_id).length}'
+                            >
                         </div>
                     </div>
-                </label>
+                    <div v-if="album_delete_photos.length">
+                        <button v-bind:disabled="isPush" class="button creatAlbum--submit deletePhotoBtn" @click="delete_photos">
+                            写真を削除する
+                        </button>
+                    </div>
+                </li>
+                <li v-else-if="isActive === 'D'">
+                    <div class="button creatAlbum--submit deleteAlbumBtn" v-on:click="delete_album">
+                        本当に削除しますか？
+                    </div>
+                </li>
+            </ul>
             </div>
-
-            <button @click="upload_album">
-                変更を保存する
-            </button>
-
-            <!-- 写真の追加 -->
-            <div class="photo_input">
-                <label>写真を選んでね
-                    <input @change="selectedFile" ref="img_inp" type="file" accept="image/*" multiple>
-                </label>
-            </div>
-            <button @click="postPhoto">
-                写真送信！！！！！！！
-            </button>
-            <!-- アルバムフォト編集 -->
-            <div class="album__imgsContainer flex">
-                <div
-                    v-for="album_photo in album_photos"
-                    v-if="album_photo.album_id == album_id"
-                    class="album__imgsContainer--item"
-                >
-                    <img
-                        @click="delete_photo(album_photo.album_photo_id)"
-                        :src="'https://bayashi.s3-ap-northeast-1.amazonaws.com/' + album_photo.album_photo_id"
-                        v-bind:class='{delete_img: album_delete_photos.filter(id => id == album_photo.album_photo_id).length}'
-                    >
-                </div>
-            </div>
-            <div v-if="album_delete_photos.length">
-                <button @click="delete_photos">写真の削除(ゴミ箱)(モーダルのフッターみたいに)</button>
-            </div>
-
         </div>
     </div>
 </template>
@@ -86,20 +110,40 @@
     export default {
         data() {
             return {
+                isPush: false,
                 showContent: false.axios,
                 album_id: "",
                 album_name: "",
-                AlbumName: "",
                 album_members: "",
                 album_photos: "",
                 AlbumMembersSelected: [],
                 app_users: [],
-                github_user: [],
-                album_delete_photos: []
+                github_user: "",
+                album_delete_photos: [],
+                isActive: "A"
             }
         }
         ,
         methods: {
+            addMember(member_id){
+                if(this.AlbumMembersSelected.some( function( value ) {
+                    return value === member_id})
+                    ){
+                    this.AlbumMembersSelected = this.AlbumMembersSelected.filter(function(a) {
+                    return a !== member_id;
+                    });
+                }
+                else{
+                    this.AlbumMembersSelected.push(member_id)
+                }
+                console.log(this.AlbumMembersSelected)
+            },
+            change: function(num){
+                this.isActive = num
+            },
+            pushBtn: function() {
+                this.isPush = true;
+            },
             getInfo: function(album_id) {
                 var data = {
                     album_id: album_id,
@@ -117,7 +161,9 @@
                     self.AlbumMembersSelected=[]
                     self.album_members.forEach(function( member ){
                         var member_name = member.album_member 
-                        self.AlbumMembersSelected.push(member_name)
+                        if(member_name != github_user.nickname){
+                            self.AlbumMembersSelected.push(member_name)
+                        }
                     })
                 })
             }
@@ -186,19 +232,17 @@
                 })
             }
             ,
-            upload_album:function(){
+            upload_album: function(){
+                this.pushBtn();
                 var data = {
                     album_id: this.album_id,
                     album_name: this.album_name,
                     album_members: this.AlbumMembersSelected
                 }
-                console.log("---------------------")
                 axios
                 .post('api/photal/upload', data)
                 .then(res =>  {
-                    console.log("いけたっぽい！")
-                    this.$emit('update')
-                    this.getInfo(this.album_id)
+                    this.closeModal();
                 })
             }
             ,
@@ -206,13 +250,15 @@
                 this.showContent = true
                 this.getInfo(album_id)
                 this.album_id = album_id
-
                 const modal = document.querySelector('#modal')
                 disableBodyScroll(modal)
-            },
+            }
+            ,
             closeModal: function(){
+                this.$emit('update',this.album_id);
                 this.showContent = false
-                clearAllBodyScrollLocks()
+                const modal = document.querySelector('#modal')
+                enableBodyScroll(modal)
             }
         }
     }

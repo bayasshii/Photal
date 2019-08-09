@@ -1,16 +1,16 @@
 <template>
     <div>
-        <button @click="Click(album_id)">
-            <!--編集用モーダル出したい-->
-            編集する
-        </button>
+        <img
+            class="editMenu"
+            src="https://bayashi.s3-ap-northeast-1.amazonaws.com/threeeee.png"
+            @click="Click(album_id)"
+        />
         <EditAlbumComponent
             ref="modal"
-            @update="update"
+            @update="update(album_id)"
         />
     </div>
 </template>
-
 
 <script>
     import EditAlbumComponent from './EditAlbumComponent.vue'
@@ -24,9 +24,10 @@
         methods: {
             Click: function(album_id){
                 this.$refs.modal.openModal(album_id)
-            },
-            update:function(){
-                this.$emit('getInfo')
+            }
+            ,
+            update:function(album_id){
+                this.$emit('update', album_id)
             }
         }
     }

@@ -26,6 +26,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'League\\OAuth1\\' => array($vendorDir . '/league/oauth1-client/src'),
     'Laravel\\Socialite\\' => array($vendorDir . '/laravel/socialite/src'),
+    'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/support'),
     'Illuminate\\Session\\' => array($vendorDir . '/illuminate/session'),
     'Illuminate\\Http\\' => array($vendorDir . '/illuminate/http'),
@@ -36,4 +37,5 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
+    'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
 );
