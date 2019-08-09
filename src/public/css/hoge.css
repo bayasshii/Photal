@@ -501,7 +501,7 @@ body {
 }
 
 .selecteFriend {
-    width: calc(100% + 5px);
+    width: 100%;
     margin: 40px 0 90px;
     border: 1px solid #ccc;
     background: #fff;
