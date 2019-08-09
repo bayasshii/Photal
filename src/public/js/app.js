@@ -11549,7 +11549,7 @@ __webpack_require__.r(__webpack_exports__);
       } // 画像以外のデータの送信
 
 
-      axios.post('/api/photal/', albumData); // 再読み込み
+      axios.post('/api/photal', albumData); // 再読み込み
 
       Promise.all(array).then(function () {
         this.$emit('callParent'); // フォームの初期化

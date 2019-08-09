@@ -148,7 +148,7 @@
                 }
 
                 // 画像以外のデータの送信
-                axios.post('/api/photal/',albumData)
+                axios.post('/api/photal',albumData)
                 // 再読み込み
                 Promise.all(array).then(
                     function(){
