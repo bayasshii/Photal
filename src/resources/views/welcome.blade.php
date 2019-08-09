@@ -6,11 +6,13 @@
         <title>ログイン画面</title>
     </head>
     <body>
+        <div class="loginBtn__container">
             <a 
                 class="loginBtn"
                 href="/login/github"
             >
                 githubアカウントでログイン
-        </a>
+            </a>
+        </div>
     </body>
 </html>
