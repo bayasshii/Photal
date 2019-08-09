@@ -11545,11 +11545,11 @@ __webpack_require__.r(__webpack_exports__);
         var formData = new FormData();
         formData.append('image', this.uploadFile[i]);
         formData.append('album_id', album_id);
-        array.push(api.post('api/photalTest', formData, config));
+        array.push(api.post('/api/photalTest', formData, config));
       } // 画像以外のデータの送信
 
 
-      axios.post('api/photal/', albumData); // 再読み込み
+      axios.post('/api/photal/', albumData); // 再読み込み
 
       Promise.all(array).then(function () {
         this.$emit('callParent'); // フォームの初期化
@@ -11564,7 +11564,7 @@ __webpack_require__.r(__webpack_exports__);
     // 情報取得
     getInfo: function getInfo() {
       var self = this;
-      axios.get('api/photal/github').then(function (res) {
+      axios.get('/api/photal/github').then(function (res) {
         self.app_users = res.data.app_users;
         self.github_user = res.data.github_user;
       });
@@ -12073,7 +12073,7 @@ __webpack_require__.r(__webpack_exports__);
       };
       this.album_id = albumid;
       var self = this;
-      axios.post('api/photal/getSelfData', data).then(function (res) {
+      axios.post('/api/photal/getSelfData', data).then(function (res) {
         self.album_name = res.data.album_name;
         console.log("------------------------");
         console.log('アルバムname');
@@ -12100,7 +12100,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         github_id: github_id
       };
-      axios.post('api/photal/loveInfo', data).then(function (res) {
+      axios.post('/api/photal/loveInfo', data).then(function (res) {
         self.love_counts = res.data.love_counts;
         self.your_love_photos = res.data.your_love_photos;
       });
@@ -12113,7 +12113,7 @@ __webpack_require__.r(__webpack_exports__);
         album_photo_id: albumPhotoId,
         github_id: githubId
       };
-      axios.post('api/photal/love', data).then(function (res) {
+      axios.post('/api/photal/love', data).then(function (res) {
         _this2.love_counts = res.data.love_counts;
         _this2.your_love_photos = res.data.your_love_photos;
       });
@@ -12200,10 +12200,10 @@ __webpack_require__.r(__webpack_exports__);
     getAlbumId: function getAlbumId() {
       var _this = this;
 
-      axios.get('api/photal/github').then(function (res) {
+      axios.get('/api/photal/github').then(function (res) {
         _this.nickname = res.data.github_user.nickname;
       });
-      axios.get('api/photal/albumId').then(function (res) {
+      axios.get('/api/photal/albumId').then(function (res) {
         _this.albums = res.data.albums.reverse();
         console.log("---------album--------");
         console.log(_this.albums);

@@ -61,13 +61,13 @@
             ,
             getAlbumId(){
                 axios
-                .get('api/photal/github')
+                .get('/api/photal/github')
                 .then(res =>  {
                     this.nickname = res.data.github_user.nickname;
                 })
 
                 axios
-                .get('api/photal/albumId')
+                .get('/api/photal/albumId')
                 .then(res =>  {
                     this.albums = res.data.albums.reverse();
                     console.log("---------album--------")

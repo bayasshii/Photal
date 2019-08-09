@@ -121,7 +121,7 @@ import AlbumMenuComponent from './AlbumMenuComponent.vue'
                 this.album_id = albumid
                 var self = this;
                 axios
-                .post('api/photal/getSelfData', data)
+                .post('/api/photal/getSelfData', data)
                 .then(res =>  {
                     self.album_name = res.data.album_name
                     console.log("------------------------")
@@ -152,7 +152,7 @@ import AlbumMenuComponent from './AlbumMenuComponent.vue'
                 var data = {
                     github_id: github_id
                 }
-                axios.post('api/photal/loveInfo',data).then(res =>  {
+                axios.post('/api/photal/loveInfo',data).then(res =>  {
                     self.love_counts = res.data.love_counts;
                     self.your_love_photos = res.data.your_love_photos;
                     
@@ -165,7 +165,7 @@ import AlbumMenuComponent from './AlbumMenuComponent.vue'
                     album_photo_id: albumPhotoId,
                     github_id: githubId
                 }
-                axios.post('api/photal/love', data)
+                axios.post('/api/photal/love', data)
                 .then(res =>  {
                     this.love_counts = res.data.love_counts;
                     this.your_love_photos = res.data.your_love_photos;

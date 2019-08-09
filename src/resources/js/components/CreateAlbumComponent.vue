@@ -143,12 +143,12 @@
                     formData.append('image', this.uploadFile[i]);
                     formData.append('album_id', album_id);
                     array.push(api
-                        .post('api/photalTest', formData, config)
+                        .post('/api/photalTest', formData, config)
                     )
                 }
 
                 // 画像以外のデータの送信
-                axios.post('api/photal/',albumData)
+                axios.post('/api/photal/',albumData)
                 // 再読み込み
                 Promise.all(array).then(
                     function(){
@@ -165,7 +165,7 @@
             // 情報取得
             getInfo: function() {
                 var self = this;
-                axios.get('api/photal/github')
+                axios.get('/api/photal/github')
                 .then(res =>  {
                     self.app_users = res.data.app_users;
                     self.github_user = res.data.github_user
