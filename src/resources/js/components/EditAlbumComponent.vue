@@ -149,7 +149,7 @@
                     album_id: album_id,
                 }
                 var self = this;
-                axios.post('api/photal/getSelfData', data)
+                axios.post('/api/photal/getSelfData', data)
                 .then(res =>  {
                     self.album_name = res.data.album_name;
                     self.album_members = res.data.album_members;
@@ -189,7 +189,7 @@
                     formData.append('image', this.uploadFile[i]);
                     formData.append('album_id', this.album_id);
                     array.push(api
-                        .post('api/photalTest', formData, config)
+                        .post('/api/photalTest', formData, config)
                     )
                 }
                 // 再読み込み
@@ -206,7 +206,7 @@
                 var data = {
                     album_id: this.album_id
                 }
-                axios.post('api/photal/delete', data)
+                axios.post('/api/photal/delete', data)
                 this.$emit('update')
                 this.closeModal()
             }
@@ -225,7 +225,7 @@
                     album_delete_photos: this.album_delete_photos
                 }
                 axios
-                .post('api/photal/deletePhotos', data)
+                .post('/api/photal/deletePhotos', data)
                 .then(res =>  {
                     this.$emit('update')
                     this.getInfo(this.album_id)
@@ -240,7 +240,7 @@
                     album_members: this.AlbumMembersSelected
                 }
                 axios
-                .post('api/photal/upload', data)
+                .post('/api/photal/upload', data)
                 .then(res =>  {
                     this.closeModal();
                 })

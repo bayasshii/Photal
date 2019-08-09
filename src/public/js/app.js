@@ -11739,7 +11739,7 @@ __webpack_require__.r(__webpack_exports__);
         album_id: album_id
       };
       var self = this;
-      axios.post('api/photal/getSelfData', data).then(function (res) {
+      axios.post('/api/photal/getSelfData', data).then(function (res) {
         self.album_name = res.data.album_name;
         self.album_members = res.data.album_members;
         self.album_photos = res.data.album_photos;
@@ -11776,7 +11776,7 @@ __webpack_require__.r(__webpack_exports__);
         var formData = new FormData();
         formData.append('image', this.uploadFile[i]);
         formData.append('album_id', this.album_id);
-        array.push(api.post('api/photalTest', formData, config));
+        array.push(api.post('/api/photalTest', formData, config));
       } // 再読み込み
 
 
@@ -11790,7 +11790,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         album_id: this.album_id
       };
-      axios.post('api/photal/delete', data);
+      axios.post('/api/photal/delete', data);
       this.$emit('update');
       this.closeModal();
     },
@@ -11811,7 +11811,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         album_delete_photos: this.album_delete_photos
       };
-      axios.post('api/photal/deletePhotos', data).then(function (res) {
+      axios.post('/api/photal/deletePhotos', data).then(function (res) {
         _this.$emit('update');
 
         _this.getInfo(_this.album_id);
@@ -11826,7 +11826,7 @@ __webpack_require__.r(__webpack_exports__);
         album_name: this.album_name,
         album_members: this.AlbumMembersSelected
       };
-      axios.post('api/photal/upload', data).then(function (res) {
+      axios.post('/api/photal/upload', data).then(function (res) {
         _this2.closeModal();
       });
     },
