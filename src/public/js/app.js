@@ -11711,7 +11711,8 @@ __webpack_require__.r(__webpack_exports__);
       app_users: [],
       github_user: "",
       album_delete_photos: [],
-      isActive: "A"
+      isActive: "A",
+      uploadFile: []
     };
   },
   methods: {

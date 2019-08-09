@@ -61,7 +61,7 @@
                             写真を選んでね
                             <input @change="selectedFile" ref="img_inp" type="file" accept="image/*" multiple>
                         </label>
-                        <div class="pt-10">現在、{{uploadFile.length}}枚 選択されています</div>
+                        <div class="pt-10">現在、{{ uploadFile.length }}枚 選択されています</div>
                     </div>
                     <button v-bind:disabled="isPush" class="button creatAlbum--submit" @click="postPhoto">
                         写真を保存する
@@ -120,7 +120,8 @@
                 app_users: [],
                 github_user: "",
                 album_delete_photos: [],
-                isActive: "A"
+                isActive: "A",
+                uploadFile: []
             }
         }
         ,
