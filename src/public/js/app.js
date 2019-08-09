@@ -11929,7 +11929,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         nickname: this.nickname
       };
-      axios.post('/photal/api/photal/home', data).then(function (res) {
+      axios.post('/api/photal/home', data).then(function (res) {
         _this.album_members = res.data.album_members;
         console.log("メンバー情報取得完了〜〜");
         console.log(_this.album_members);

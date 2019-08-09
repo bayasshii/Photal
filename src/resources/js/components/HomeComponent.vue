@@ -76,7 +76,7 @@
                     nickname: this.nickname
                 }
                 axios
-                .post('/photal/api/photal/home', data)
+                .post('/api/photal/home', data)
                 .then(res =>  {
                     this.album_members = res.data.album_members
                     console.log("メンバー情報取得完了〜〜")
