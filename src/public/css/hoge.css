@@ -679,3 +679,13 @@ body {
 .pl-5 {
     padding-left: 5px;
 }
+.loginBtn{
+    margin: 300px auto;
+    padding: 60px 120px;
+    border: 1px solid #ccc;
+}
+
+.loginBtn:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}

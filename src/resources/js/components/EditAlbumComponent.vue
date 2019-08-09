@@ -118,7 +118,7 @@
                 album_photos: "",
                 AlbumMembersSelected: [],
                 app_users: [],
-                github_user: "",
+                github_user: [],
                 album_delete_photos: [],
                 isActive: "A",
                 uploadFile: []
@@ -177,6 +177,7 @@
             }
             ,
             postPhoto: function() {
+                this.pushBtn()
                 // 良い感じに画像送信するためのあれこれ
                 const api = axios.create();
                 var array = []
@@ -213,6 +214,7 @@
             }
             ,
             delete_photo: function(album_photo_id) {
+                this.pushBtn()
                 if (this.album_delete_photos.filter(id => id == album_photo_id).length) {
                     this.album_delete_photos = this.album_delete_photos.filter(id=>id!==album_photo_id)
                 }

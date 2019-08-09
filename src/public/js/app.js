@@ -11709,7 +11709,7 @@ __webpack_require__.r(__webpack_exports__);
       album_photos: "",
       AlbumMembersSelected: [],
       app_users: [],
-      github_user: "",
+      github_user: [],
       album_delete_photos: [],
       isActive: "A",
       uploadFile: []
@@ -11764,7 +11764,8 @@ __webpack_require__.r(__webpack_exports__);
       this.uploadFile = files;
     },
     postPhoto: function postPhoto() {
-      // 良い感じに画像送信するためのあれこれ
+      this.pushBtn(); // 良い感じに画像送信するためのあれこれ
+
       var api = axios.create();
       var array = [];
       var config = {
@@ -11796,6 +11797,8 @@ __webpack_require__.r(__webpack_exports__);
       this.closeModal();
     },
     delete_photo: function delete_photo(album_photo_id) {
+      this.pushBtn();
+
       if (this.album_delete_photos.filter(function (id) {
         return id == album_photo_id;
       }).length) {
