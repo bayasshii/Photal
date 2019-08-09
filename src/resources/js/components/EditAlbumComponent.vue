@@ -23,7 +23,7 @@
                     <div class="selecteFriend">
                         <div class="title">ともだちを選択してね</div>
                         <div class="title">現在、{{AlbumMembersSelected.length+1}}人 選択されています</div>
-                        <label class="flex">
+                        <label class="flex flex-wrap">
                             <div class="flex">
                                 <div class="memberSelected">
                                     {{github_user.nickname}}

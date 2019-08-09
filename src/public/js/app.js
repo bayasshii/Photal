@@ -47893,7 +47893,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "label",
-                      { staticClass: "flex" },
+                      { staticClass: "flex flex-wrap" },
                       [
                         _c("div", { staticClass: "flex" }, [
                           _c("div", { staticClass: "memberSelected" }, [
