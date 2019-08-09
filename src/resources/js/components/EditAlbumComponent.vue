@@ -56,12 +56,12 @@
                 </li>
                 <li v-else-if="isActive === 'B'">
                     <!-- 写真の追加 -->
-                    <div class="photo_input mt-30">
+                    <div class="photo_input mt-80">
                         <label class="albumImage--input">
                             写真を選んでね
                             <input @change="selectedFile" ref="img_inp" type="file" accept="image/*" multiple>
                         </label>
-                        <div class="pt-10">現在、枚 選択されています</div>
+                        <div class="pt-10">現在、{{uploadFile.length}}枚 選択されています</div>
                     </div>
                     <button v-bind:disabled="isPush" class="button creatAlbum--submit" @click="postPhoto">
                         写真を保存する

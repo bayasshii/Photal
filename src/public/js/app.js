@@ -47961,7 +47961,7 @@ var render = function() {
                 ])
               : _vm.isActive === "B"
               ? _c("li", [
-                  _c("div", { staticClass: "photo_input mt-30" }, [
+                  _c("div", { staticClass: "photo_input mt-80" }, [
                     _c("label", { staticClass: "albumImage--input" }, [
                       _vm._v(
                         "\n                        写真を選んでね\n                        "
@@ -47978,7 +47978,11 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "pt-10" }, [
-                      _vm._v("現在、枚 選択されています")
+                      _vm._v(
+                        "現在、" +
+                          _vm._s(_vm.uploadFile.length) +
+                          "枚 選択されています"
+                      )
                     ])
                   ]),
                   _vm._v(" "),
