@@ -685,6 +685,7 @@ body {
 }
 
 .loginBtn__container{
+    text-align: center;
     margin: 300px auto;
 }
 
