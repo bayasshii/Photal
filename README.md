@@ -4,17 +4,21 @@
 チームラボサマーインターンシップの課題で作ったwebアプリです。
 
 - ユーザー認証
-  
+  socialite(Github OAuth App)
 
 - サーバ環境
   heroku
+  
+- 画像保存先
+  AWS S3
+  
+- データベース
+  PosgreSQL
   
 - バックエンド
   Laravel
   
 - フロントエンド
-  Vue.js
+  Vue
 
-- データベース
-  PosgreSQL
   
