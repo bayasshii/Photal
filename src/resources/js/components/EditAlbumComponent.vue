@@ -10,7 +10,7 @@
                 <li v-on:click="change('C')" v-bind:class="{'active': isActive === 'C'}">写真を削除</li>
                 <li class="deletealbum" v-on:click="change('D')" v-bind:class="{'active': isActive === 'D'}">アルバムを削除</li>
             </ul>
-        
+
             <ul class="article">
                 <li v-if="isActive === 'A'">
                     <!-- アルバムタイトル編集 -->
@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div
-                                v-for="app_user in app_users" 
+                                v-for="app_user in app_users"
                                 v-if="app_user.github_id != github_user.nickname"
                                 @click="addMember(app_user.github_id)"
                             >
@@ -84,13 +84,13 @@
                         </div>
                     </div>
                     <div v-if="album_delete_photos.length">
-                        <button v-bind:disabled="isPush" class="button creatAlbum--submit deletePhotoBtn" @click="delete_photos">
+                        <button v-bind:disabled="isPush" class="button creatAlbum--submit deletePhotoBtn" v-bind:disabled="isPush" @click="delete_photos">
                             写真を削除する
                         </button>
                     </div>
                 </li>
                 <li v-else-if="isActive === 'D'">
-                    <div class="button creatAlbum--submit deleteAlbumBtn" v-on:click="delete_album">
+                    <div class="button creatAlbum--submit deleteAlbumBtn" v-bind:disabled="isPush" v-on:click="delete_album">
                         本当に削除しますか？
                     </div>
                 </li>
@@ -161,7 +161,7 @@
                     // デフォルトのメンバーを代入
                     self.AlbumMembersSelected=[]
                     self.album_members.forEach(function( member ){
-                        var member_name = member.album_member 
+                        var member_name = member.album_member
                         if(member_name != github_user.nickname){
                             self.AlbumMembersSelected.push(member_name)
                         }
@@ -205,12 +205,15 @@
             }
             ,
             delete_album: function(){
+                this.pushBtn();
                 var data = {
                     album_id: this.album_id
                 }
-                axios.post('/api/photal/delete', data)
-                this.$emit('update')
-                this.closeModal()
+                axios
+                .post('/api/photal/delete', data)
+                .then(res =>  {
+                    this.closeModal();
+                })
             }
             ,
             delete_photo: function(album_photo_id) {
@@ -224,14 +227,14 @@
             }
             ,
             delete_photos: function(album_photo_id){
+                this.pushBtn();
                 var data = {
                     album_delete_photos: this.album_delete_photos
                 }
                 axios
                 .post('/api/photal/deletePhotos', data)
                 .then(res =>  {
-                    this.$emit('update')
-                    this.getInfo(this.album_id)
+                    this.closeModal();
                 })
             }
             ,
