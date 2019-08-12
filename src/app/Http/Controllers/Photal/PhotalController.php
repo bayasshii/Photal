@@ -20,7 +20,6 @@ use App\Model\LoveCounts;
 use Illuminate\Support\Facades\Log;
 
 class PhotalController extends Controller {
-
     // s3に画像アップロードするローカル関数
     private function s3upload(int $id, string $image) {
         //拡張子で画像でないファイルをはじく
@@ -30,7 +29,6 @@ class PhotalController extends Controller {
         //     exit();
         // }
 
-        
         //S3clientのインスタンス生成(各項目の説明は後述)
         $s3client = S3Client::factory([
             'credentials' => [
@@ -100,7 +98,7 @@ class PhotalController extends Controller {
         $album_id = $request->album_id;
         $album_name = $request->album_name;
         $nickname = $request->nickname;
-        Album::insert(["album_id"  => $album_id, "album_name" => $album_name]);  
+        Album::insert(["album_id"  => $album_id, "album_name" => $album_name]);
 
         $album_members = $request->album_members_selected;
         foreach ($album_members as $album_member) {
@@ -108,13 +106,13 @@ class PhotalController extends Controller {
         }
         AlbumMember::insert(["album_id"  => $album_id, "album_member" => $nickname]);
     }
-    
+
     public function postInfoTest(Request $request) {
         $album_photo = $request->image;
         $album_id = $request->album_id;
         $album_photo_id = mt_rand();
-        AlbumPhoto::insert(["album_id" => $album_id, "album_photo_id" => $album_photo_id]); 
-        LoveCounts::insert(["album_photo_id" => $album_photo_id, "love_count" => 0]); 
+        AlbumPhoto::insert(["album_id" => $album_id, "album_photo_id" => $album_photo_id]);
+        LoveCounts::insert(["album_photo_id" => $album_photo_id, "love_count" => 0]);
         $this->s3upload($album_photo_id, file_get_contents($album_photo));
     }
 
@@ -127,11 +125,11 @@ class PhotalController extends Controller {
 
         // なければlike判定で
         if(empty($this_photo)) {
-            Loves::insert(["album_photo_id" => $album_photo_id, "github_id" => $github_id]); 
+            Loves::insert(["album_photo_id" => $album_photo_id, "github_id" => $github_id]);
         }
         // あればdislike判定
         else {
-            Loves::where('album_photo_id',$album_photo_id)->where("github_id",$github_id)->first()->delete(); 
+            Loves::where('album_photo_id',$album_photo_id)->where("github_id",$github_id)->first()->delete();
         }
 
         $this_loveCount = LoveCounts::all()->where("album_photo_id",$album_photo_id)->first();
@@ -150,9 +148,9 @@ class PhotalController extends Controller {
 
     public function albumDelete(Request $request) {
         $album_id = $request->album_id;
-        Album::where('album_id',$album_id)->delete(); 
-        AlbumMember::where('album_id',$album_id)->delete(); 
-        AlbumPhoto::where('album_id',$album_id)->delete(); 
+        Album::where('album_id',$album_id)->delete();
+        AlbumMember::where('album_id',$album_id)->delete();
+        AlbumPhoto::where('album_id',$album_id)->delete();
     }
 
     // album_idから色々返してくれる
@@ -176,7 +174,7 @@ class PhotalController extends Controller {
 
         $data = response()->json([
             "album_name" => $album_name,
-            "album_members" => $album_members, 
+            "album_members" => $album_members,
             "album_photos" => $album_photos,
             "app_users" => $app_users,
             "github_user" => $github_user
@@ -235,7 +233,7 @@ class PhotalController extends Controller {
         $album_members = AlbumMember::where("album_member", $nickname)->get();
 
         $data = response()->json([
-            "album_members" => $album_members, 
+            "album_members" => $album_members,
         ]);
         return $data;
     }
