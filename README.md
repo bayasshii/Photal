@@ -17,9 +17,8 @@
   PosgreSQL
   
 - バックエンド<br>
-  Laravel
+  Laravel 5.8
   
 - フロントエンド<br>
-  Vue
+  Vue 2.5
 
-  
